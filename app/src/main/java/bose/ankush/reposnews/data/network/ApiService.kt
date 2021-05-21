@@ -16,5 +16,4 @@ interface ApiService {
         @Query("q") keyword: String,
         @Query("apiKey") apiKey: String = BuildConfig.API_KEY
     ): News?
-
 }
