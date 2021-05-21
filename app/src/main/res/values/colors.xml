@@ -9,8 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <!--Custom color-->
-    <color name="darkBackground">#2E3149</color>
     <color name="cardBackground">#1E1F2C</color>
-    <color name="grey1">#E0E0E0</color>
     <color name="grey2">#9E9E9E</color>
 </resources>

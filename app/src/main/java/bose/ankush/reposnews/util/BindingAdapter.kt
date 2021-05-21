@@ -15,23 +15,24 @@ Author: Ankush Bose
 Date: 20,May,2021
  **/
 
-@BindingAdapter("setDescriptionText")
-fun TextView.setDescriptionText(txt: String) {
+@BindingAdapter("setContentText", "newsLink")
+fun TextView.setContentText(txt: String, newsLink: String?) {
     var givenString = txt
     val lengthOfString = givenString.length
     text =
         if (lengthOfString > 200) {
             val newStringSubset = givenString.substring(0, 200)
             val remainingLengthOfString = lengthOfString - newStringSubset.length
-            givenString = "$newStringSubset.. [+$remainingLengthOfString chars]";
-            HtmlCompat.fromHtml(
-                "$givenString<font color='white'> <u>Read More</u></font>",
-                HtmlCompat.FROM_HTML_MODE_LEGACY
-            )
-        } else HtmlCompat.fromHtml(
-            "$givenString<font color='white'> <u>Read More</u></font>",
-            HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
+            givenString = "$newStringSubset.. [+$remainingLengthOfString chars]"
+            newsLink?.let {
+                val link = "<a href=$it>Read More</a></u>"
+                HtmlCompat.fromHtml("$givenString $link", HtmlCompat.FROM_HTML_MODE_LEGACY)
+            } ?: givenString
+
+        } else newsLink?.let {
+            val link = "<a href=$it>Read More</a></u>"
+            HtmlCompat.fromHtml(link, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        } ?: givenString
 }
 
 

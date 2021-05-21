@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import bose.ankush.reposnews.data.NewsRepository
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.util.ResultData
-import bose.ankush.reposnews.util.logMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

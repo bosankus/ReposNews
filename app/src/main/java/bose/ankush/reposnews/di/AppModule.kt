@@ -33,13 +33,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     @Singleton
     @Provides
-    fun getOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .callTimeout(60, TimeUnit.SECONDS)
@@ -50,14 +50,14 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getMoshi(): Moshi {
+    fun provideMoshi(): Moshi {
         return Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
     }
 
     @Provides
-    fun getRetrofit(
+    fun provideRetrofit(
         moshi: Moshi,
         okHttpClient: OkHttpClient
     ): Retrofit {
@@ -70,7 +70,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getApiService(retrofit: Retrofit): ApiService {
+    fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
@@ -89,5 +89,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getNewsRepository(apiService: ApiService, dao: NewsDao) = NewsRepository(apiService, dao)
+    fun provideNewsRepository(apiService: ApiService, dao: NewsDao) = NewsRepository(apiService, dao)
 }

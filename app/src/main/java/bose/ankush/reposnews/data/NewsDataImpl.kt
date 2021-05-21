@@ -1,8 +1,6 @@
 package bose.ankush.reposnews.data
 
-import androidx.lifecycle.LiveData
 import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.data.network.News
 
 /**Created by
 Author: Ankush Bose

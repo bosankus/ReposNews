@@ -1,11 +1,13 @@
 package bose.ankush.reposnews.view
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import bose.ankush.reposnews.R
 import bose.ankush.reposnews.databinding.FragmentNewsDetailsBinding
 
@@ -42,7 +44,10 @@ class FragmentNewsDetails : Fragment() {
     }
 
     private fun setClickListeners() {
-
+        binding?.apply {
+            fragmentNewsDetailsImgBack.setOnClickListener { findNavController().navigateUp() }
+            fragmentNewsDetailsNewsContent.movementMethod = LinkMovementMethod.getInstance()
+        }
     }
 
 
