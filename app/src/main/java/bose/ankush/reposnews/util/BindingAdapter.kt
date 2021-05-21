@@ -1,15 +1,26 @@
 package bose.ankush.reposnews.util
 
 import android.view.View
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.view.NewsAdapter
+import com.bumptech.glide.Glide
 
 /**Created by
 Author: Ankush Bose
 Date: 20,May,2021
  **/
+
+@BindingAdapter("setNewsImage")
+fun ImageView.setImage(url: String) {
+    Glide.with(this.context)
+        .load(url)
+        .centerCrop()
+        .into(this)
+}
+
 
 @BindingAdapter("hasAnyError")
 fun View.errorVisibility(response: ResultData<*>) {
