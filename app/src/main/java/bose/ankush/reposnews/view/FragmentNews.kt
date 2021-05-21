@@ -36,19 +36,6 @@ class FragmentNews : Fragment() {
         }?.root
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setClickListeners()
-    }
-
-    private fun setClickListeners() {
-        binding?.layoutNewsLayoutError?.layoutErrorBtnRetry?.setOnClickListener {
-            logMessage("button clicked")
-            viewModel.fetchNews()
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         binding = null
