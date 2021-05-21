@@ -10,6 +10,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/layout_news_list_item_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/gap_200dp"
         android:layout_marginBottom="@dimen/gap_16dp"
@@ -39,7 +40,7 @@
 
             </FrameLayout>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNewsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNewsDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +72,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNewsTitle" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNewsSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,7 +88,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvNewsPublishedAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -9,5 +9,18 @@
         android:id="@+id/fragmentNews"
         android:name="bose.ankush.reposnews.view.FragmentNews"
         android:label="FragmentNews"
-        tools:layout="@layout/fragment_news"/>
+        tools:layout="@layout/fragment_news">
+        <action
+            android:id="@+id/action_fragmentNews_to_fragmentNewsDetails"
+            app:destination="@id/fragmentNewsDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentNewsDetails"
+        android:name="bose.ankush.reposnews.view.FragmentNewsDetails"
+        android:label="FragmentNewsDetails"
+        tools:layout="@layout/fragment_news_details">
+        <argument
+            android:name="selectedNews"
+            app:argType="bose.ankush.reposnews.data.local.NewsEntity" />
+    </fragment>
 </navigation>

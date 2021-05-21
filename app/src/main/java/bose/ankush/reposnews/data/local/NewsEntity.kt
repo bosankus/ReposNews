@@ -1,8 +1,10 @@
 package bose.ankush.reposnews.data.local
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 /**Created by
 Author: Ankush Bose
@@ -10,6 +12,7 @@ Date: 20,May,2021
  **/
 
 @Entity(tableName = "news_table")
+@Parcelize
 data class NewsEntity(
     @ColumnInfo(name = "author")
     val author: String? = "",
@@ -27,7 +30,7 @@ data class NewsEntity(
     val url: String? = "",
     @ColumnInfo(name = "urlToImage")
     val urlToImage: String? = "",
-) {
+) : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }
