@@ -8,4 +8,4 @@ Date: 19,May,2021
  **/
 
 
-fun logMessage(message: String) = Timber.d(message)
+fun logMessage(message: String) = Timber.i(message)

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ReposNews</string>
     <string name="news_txt">News</string>
+
+    <string name="error_txt">Something went wrong at our end!</string>
+    <string name="retry_btn_txt">Retry</string>
 </resources>

@@ -3,11 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="bose.ankush.reposnews.viewmodel.MainViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <include
+            android:id="@+id/fragment_news_layout_loading"
+            layout="@layout/layout_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:viewmodel="@{viewmodel}" />
+
+        <include
+            android:id="@+id/layout_news_layout_error"
+            layout="@layout/layout_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:viewmodel="@{viewmodel}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/fragment_news_tv_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,6 +56,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_news_tv_header"
+            app:newsList="@{viewmodel.newsData}"
             tools:itemCount="2"
             tools:listitem="@layout/layout_news_list_item" />
 

@@ -1,17 +1,24 @@
 package bose.ankush.reposnews.di
 
-import bose.ankush.reposnews.data.ApiService
+import android.content.Context
+import androidx.room.Room
 import bose.ankush.reposnews.data.NewsRepository
+import bose.ankush.reposnews.data.local.NewsDao
+import bose.ankush.reposnews.data.local.NewsDatabase
+import bose.ankush.reposnews.data.network.ApiService
 import bose.ankush.reposnews.util.BASE_URL
+import bose.ankush.reposnews.util.DATABASE_NAME
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -43,18 +50,20 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create()
+    fun getMoshi(): Moshi {
+        return Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
     }
 
     @Provides
     fun getRetrofit(
-        converterFactory: Converter.Factory,
+        moshi: Moshi,
         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(converterFactory)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .build()
     }
@@ -67,5 +76,18 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun getNewsRepository(apiService: ApiService) = NewsRepository(apiService)
+    fun providesNewsDatabase(@ApplicationContext context: Context) =
+        Room.databaseBuilder(
+            context,
+            NewsDatabase::class.java,
+            DATABASE_NAME
+        ).build()
+
+    @Singleton
+    @Provides
+    fun providesNewsDao(db: NewsDatabase) = db.newsDao()
+
+    @Singleton
+    @Provides
+    fun getNewsRepository(apiService: ApiService, dao: NewsDao) = NewsRepository(apiService, dao)
 }
