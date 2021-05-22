@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.view
+package bose.ankush.reposnews.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +24,7 @@ class FragmentNews : Fragment() {
     private var binding: FragmentNewsBinding? = null
     private val viewModel: MainViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,6 +36,15 @@ class FragmentNews : Fragment() {
             viewmodel = viewModel
         }?.root
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchNews()
+    }
+
+
+
 
     override fun onDestroy() {
         super.onDestroy()

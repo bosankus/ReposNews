@@ -29,9 +29,6 @@ class MainViewModel @Inject constructor(private val dataSource: NewsRepository) 
         _newsData.postValue(ResultData.Failed("${exception.message}"))
     }
 
-    init {
-        fetchNews()
-    }
 
     fun fetchNews() {
         _newsData.postValue(ResultData.Loading)

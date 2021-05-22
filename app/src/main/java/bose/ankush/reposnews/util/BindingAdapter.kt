@@ -7,7 +7,7 @@ import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.view.NewsAdapter
+import bose.ankush.reposnews.view.adapter.NewsAdapter
 import com.bumptech.glide.Glide
 
 /**Created by
@@ -19,16 +19,17 @@ Date: 20,May,2021
 fun TextView.setContentText(txt: String, newsLink: String?) {
     var givenString = txt
     val lengthOfString = givenString.length
+
     text =
         if (lengthOfString > 200) {
             val newStringSubset = givenString.substring(0, 200)
-            val remainingLengthOfString = lengthOfString - newStringSubset.length
+            val remainingLengthOfString =
+                givenString.toCharArray().count() - newStringSubset.toCharArray().count()
             givenString = "$newStringSubset.. [+$remainingLengthOfString chars]"
             newsLink?.let {
                 val link = "<a href=$it>Read More</a></u>"
                 HtmlCompat.fromHtml("$givenString $link", HtmlCompat.FROM_HTML_MODE_LEGACY)
             } ?: givenString
-
         } else newsLink?.let {
             val link = "<a href=$it>Read More</a></u>"
             HtmlCompat.fromHtml(link, HtmlCompat.FROM_HTML_MODE_LEGACY)

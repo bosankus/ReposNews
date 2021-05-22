@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.view
+package bose.ankush.reposnews.view.fragment
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod

@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.view
+package bose.ankush.reposnews.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import bose.ankush.reposnews.data.local.NewsEntity

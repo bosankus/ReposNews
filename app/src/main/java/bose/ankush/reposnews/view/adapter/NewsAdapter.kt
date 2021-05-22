@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.view
+package bose.ankush.reposnews.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

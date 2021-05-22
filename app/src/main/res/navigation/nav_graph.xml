@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentNews"
-        android:name="bose.ankush.reposnews.view.FragmentNews"
+        android:name="bose.ankush.reposnews.view.fragment.FragmentNews"
         android:label="FragmentNews"
         tools:layout="@layout/fragment_news">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentNewsDetails"
-        android:name="bose.ankush.reposnews.view.FragmentNewsDetails"
+        android:name="bose.ankush.reposnews.view.fragment.FragmentNewsDetails"
         android:label="FragmentNewsDetails"
         tools:layout="@layout/fragment_news_details">
         <argument
