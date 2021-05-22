@@ -24,3 +24,8 @@ fun List<News.Article?>.convertToNewsEntity(): ArrayList<NewsEntity> {
     }
     return newsEntityList
 }
+
+
+fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
+    return first.size == second.size && first.containsAll(second)
+}

@@ -2,6 +2,7 @@ package bose.ankush.reposnews.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.work.WorkManager
 import bose.ankush.reposnews.data.NewsRepository
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsDatabase
@@ -37,6 +38,7 @@ object AppModule {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
+
     @Singleton
     @Provides
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -48,6 +50,7 @@ object AppModule {
             .build()
     }
 
+
     @Singleton
     @Provides
     fun provideMoshi(): Moshi {
@@ -55,6 +58,7 @@ object AppModule {
             .add(KotlinJsonAdapterFactory())
             .build()
     }
+
 
     @Provides
     fun provideRetrofit(
@@ -68,11 +72,13 @@ object AppModule {
             .build()
     }
 
+
     @Singleton
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
+
 
     @Singleton
     @Provides
@@ -83,11 +89,19 @@ object AppModule {
             DATABASE_NAME
         ).build()
 
+
     @Singleton
     @Provides
     fun providesNewsDao(db: NewsDatabase) = db.newsDao()
 
+
     @Singleton
     @Provides
-    fun provideNewsRepository(apiService: ApiService, dao: NewsDao) = NewsRepository(apiService, dao)
+    fun provideNewsRepository(apiService: ApiService, dao: NewsDao) =
+        NewsRepository(apiService, dao)
+
+
+    @Singleton
+    @Provides
+    fun providesWorkManager(@ApplicationContext app: Context) = WorkManager.getInstance(app).also { it.pruneWork() }
 }

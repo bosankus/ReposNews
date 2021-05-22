@@ -7,11 +7,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import bose.ankush.reposnews.R
 import bose.ankush.reposnews.databinding.FragmentNewsBinding
+import bose.ankush.reposnews.util.WORKER_TAG
 import bose.ankush.reposnews.util.logMessage
 import bose.ankush.reposnews.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**Created by
 Author: Ankush Bose
@@ -24,6 +29,8 @@ class FragmentNews : Fragment() {
     private var binding: FragmentNewsBinding? = null
     private val viewModel: MainViewModel by viewModels()
 
+    @Inject
+    lateinit var workManager: WorkManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,12 +45,26 @@ class FragmentNews : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
+    // TODO: Need to find a way to stop observing workinfo status
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.workInfoStatus.observe(viewLifecycleOwner, workInfoObserver())
+    }*/
+    /*private fun workInfoObserver(): Observer<List<WorkInfo>> {
+        return Observer { listOfWorkInfo ->
+            if (listOfWorkInfo.isNullOrEmpty()) return@Observer
+            val workInfo = listOfWorkInfo[0]
+            if (workInfo.state.isFinished) {
+                viewModel.fetchNews()
+                workManager.pruneWork()
+            }
+        }
+    }*/
+
+    override fun onStart() {
+        super.onStart()
         viewModel.fetchNews()
     }
-
-
 
 
     override fun onDestroy() {
