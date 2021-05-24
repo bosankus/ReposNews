@@ -16,14 +16,7 @@
         android:background="@color/black">
 
         <include
-            android:id="@+id/fragment_news_layout_loading"
-            layout="@layout/layout_loading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:viewmodel="@{viewmodel}" />
-
-        <include
-            android:id="@+id/layout_news_layout_error"
+            android:id="@+id/fragment_news_layout_error"
             layout="@layout/layout_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -42,24 +35,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_news_rv_news"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/fragment_news_swipe_refresh_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/gap_0dp"
-            android:layout_marginTop="@dimen/gap_16dp"
-            android:background="@android:color/transparent"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            android:padding="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="0dp"
+            app:isSwipeRefreshing="@{viewmodel.newsData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_news_tv_header"
-            app:newsList="@{viewmodel.newsData}"
-            tools:itemCount="2"
-            tools:listitem="@layout/layout_news_list_item" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_news_tv_header">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_news_rv_news"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/gap_16dp"
+                android:background="@android:color/transparent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:padding="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:newsList="@{viewmodel.newsData}"
+                tools:itemCount="2"
+                tools:listitem="@layout/layout_news_list_item" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

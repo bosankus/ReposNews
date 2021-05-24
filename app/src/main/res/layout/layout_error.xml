@@ -25,11 +25,12 @@
             android:text="@string/error_txt"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_28sp"
+            android:textSize="@dimen/text_20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

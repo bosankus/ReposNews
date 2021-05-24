@@ -1,6 +1,5 @@
 package bose.ankush.reposnews.data
 
-import androidx.lifecycle.LiveData
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.network.ApiService
@@ -20,6 +19,7 @@ class NewsRepository @Inject constructor(
     private val dao: NewsDao
 ) : NewsDataImpl {
 
+
     override suspend fun getNewsFromLocal(): List<NewsEntity?> = dao.getNews()
 
 
@@ -38,16 +38,18 @@ class NewsRepository @Inject constructor(
         val newsFromRemote = response?.articles?.convertToNewsEntity()
         val newsFromLocal = getNewsFromLocal()
         newsFromRemote?.let {
-            if (isEqual(newsFromLocal, it.toList())) return@withContext
+            if (isEqual(newsFromLocal, it.toList())) false
             else {
                 dao.deleteAllNews()
                 it.forEach { item -> dao.insertNews(item) }
+                true
             }
         }
+        false
     }
 
 
     companion object {
-        const val SEARCH_KEYWORD = "little  "
+        const val SEARCH_KEYWORD = "energy"
     }
 }

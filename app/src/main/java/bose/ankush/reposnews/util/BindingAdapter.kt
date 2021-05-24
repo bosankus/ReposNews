@@ -5,7 +5,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.view.adapter.NewsAdapter
 import com.bumptech.glide.Glide
@@ -44,13 +46,10 @@ fun View.errorVisibility(response: ResultData<*>) {
 }
 
 
-@BindingAdapter("isLoading")
-fun View.loadingVisibility(response: ResultData<*>) {
-    this.visibility =
-        if (response is ResultData.Loading) View.VISIBLE
-        else View.GONE
+@BindingAdapter("isSwipeRefreshing")
+fun SwipeRefreshLayout.refreshingVisibility(response: ResultData<*>) {
+    this.isRefreshing = response is ResultData.Loading
 }
-
 
 @BindingAdapter("newsList")
 fun RecyclerView.setList(response: ResultData<List<NewsEntity?>>) {
@@ -60,3 +59,12 @@ fun RecyclerView.setList(response: ResultData<List<NewsEntity?>>) {
         newsAdapter.submitList(response.data)
     } else newsAdapter.submitList(emptyList())
 }
+
+
+/*
+@BindingAdapter("liveNews")
+fun RecyclerView.setLiveNews(response: LiveData<List<NewsEntity?>>) {
+    val newsAdapter = NewsAdapter()
+    this.adapter = newsAdapter
+    newsAdapter.submitList(response.value)
+}*/

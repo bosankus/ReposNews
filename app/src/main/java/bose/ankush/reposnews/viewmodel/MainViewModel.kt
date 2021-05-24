@@ -10,11 +10,11 @@ import bose.ankush.reposnews.data.NewsRepository
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.util.ResultData
 import bose.ankush.reposnews.util.WORKER_TAG
-import bose.ankush.reposnews.util.logMessage
 import bose.ankush.reposnews.worker.NewsUpdateWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**Created by
@@ -36,10 +36,13 @@ class MainViewModel @Inject constructor(
         _newsData.postValue(ResultData.Failed("${exception.message}"))
     }
 
-    var workInfoStatus = workManager.getWorkInfosByTagLiveData(WORKER_TAG)
+
+    init {
+        startNewsUpdateWorker()
+    }
+
 
     fun fetchNews() {
-        logMessage("again")
         _newsData.postValue(ResultData.Loading)
         viewModelScope.launch(newsExceptionHandler) {
             val response = dataSource.getNewsFromLocal()
@@ -47,34 +50,41 @@ class MainViewModel @Inject constructor(
                 val news = dataSource.fetchNewsAndSaveToLocal()
                 _newsData.postValue(ResultData.Success(news))
             } else {
-                updateNews()
                 _newsData.postValue(ResultData.Success(response))
             }
         }
     }
 
 
-    private fun updateNews() {
+    fun updateNews() {
+        _newsData.postValue(ResultData.Loading)
+        viewModelScope.launch(newsExceptionHandler) {
+            dataSource.updateNewsFromInternet()
+            _newsData.postValue(ResultData.Success(dataSource.getNewsFromLocal()))
+        }
+    }
 
+
+    private fun startNewsUpdateWorker() {
         val workConstraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val oneTimeWorkRequest = OneTimeWorkRequestBuilder<NewsUpdateWorker>()
+        val periodicWorkRequest = PeriodicWorkRequestBuilder<NewsUpdateWorker>(2, TimeUnit.DAYS)
             .setConstraints(workConstraints)
             .addTag(WORKER_TAG)
+            .setBackoffCriteria(
+                BackoffPolicy.LINEAR,
+                PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
+                TimeUnit.MILLISECONDS
+            )
             .build()
 
-        workManager.enqueueUniqueWork(
-            "news_update_person",
-            ExistingWorkPolicy.REPLACE,
-            oneTimeWorkRequest
-        )
+        workManager
+            .enqueueUniquePeriodicWork(
+                "work_name",
+                ExistingPeriodicWorkPolicy.KEEP,
+                periodicWorkRequest
+            )
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        logMessage("onCleared")
-    }
-
 }

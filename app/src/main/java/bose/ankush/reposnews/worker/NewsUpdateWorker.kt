@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import bose.ankush.reposnews.data.NewsRepository
+import bose.ankush.reposnews.util.logMessage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -22,10 +23,12 @@ class NewsUpdateWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            dataSource.updateNewsFromInternet()
-            Result.success()
+            logMessage("again")
+            val isNewsUpdated = dataSource.updateNewsFromInternet()
+            if (isNewsUpdated) Result.failure()
+            else Result.success()
         } catch (e: Exception) {
-            Result.failure()
+            Result.retry()
         }
     }
 }
