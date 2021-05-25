@@ -2,10 +2,8 @@ package bose.ankush.reposnews
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.multidex.BuildConfig
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
 import javax.inject.Inject
 
 /**Created by
@@ -20,6 +18,7 @@ class ReposNewsApplication : Application(), Configuration.Provider {
     lateinit var workerFactory: HiltWorkerFactory
 
     override fun getWorkManagerConfiguration() = Configuration.Builder()
+        .setMinimumLoggingLevel(android.util.Log.DEBUG)
         .setWorkerFactory(workerFactory)
         .build()
 }

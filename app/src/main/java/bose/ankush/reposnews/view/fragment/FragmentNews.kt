@@ -44,11 +44,6 @@ class FragmentNews : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.fragmentNewsSwipeRefreshContainer?.setOnRefreshListener { viewModel.updateNews() }
-    }
-
-
-    override fun onStart() {
-        super.onStart()
         viewModel.fetchNews()
     }
 

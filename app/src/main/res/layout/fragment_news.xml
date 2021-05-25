@@ -55,6 +55,7 @@
                 android:orientation="vertical"
                 android:overScrollMode="never"
                 android:padding="16dp"
+                android:layoutAnimation="@anim/fall_down"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:newsList="@{viewmodel.newsData}"
                 tools:itemCount="2"

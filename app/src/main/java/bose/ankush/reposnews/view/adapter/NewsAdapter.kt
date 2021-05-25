@@ -21,6 +21,6 @@ class NewsAdapter : ListAdapter<NewsEntity, NewsViewHolder>(DiffUtil()) {
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val newsEntityItem = getItem(position)
-        holder.bind(newsEntityItem)
+        holder.bind(newsEntityItem, position)
     }
 }
