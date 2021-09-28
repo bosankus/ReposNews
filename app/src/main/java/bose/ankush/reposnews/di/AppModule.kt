@@ -1,8 +1,10 @@
 package bose.ankush.reposnews.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import bose.ankush.reposnews.data.NewsRepository
+import bose.ankush.reposnews.data.NewsRepositoryImpl
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsDatabase
 import bose.ankush.reposnews.data.network.ApiService
@@ -96,6 +98,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideNewsRepository(apiService: ApiService, dao: NewsDao) =
-        NewsRepository(apiService, dao)
+    fun provideNewsRepository(apiService: ApiService, dao: NewsDao): NewsRepository =
+        NewsRepositoryImpl(apiService, dao)
 }

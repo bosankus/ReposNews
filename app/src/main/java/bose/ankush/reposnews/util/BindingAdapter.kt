@@ -49,7 +49,7 @@ fun View.errorVisibility(response: ResultData<*>) {
 
 @BindingAdapter("android:text")
 fun TextView.errorText(response: ResultData<*>) {
-    if (response is ResultData.Failed) text = resources.getString(R.string.error_txt)
+    if (response is ResultData.Failed) text = response.message
     else if (response is ResultData.Success && response.data == null)
         text = resources.getString(R.string.empty_error_txt)
 }

@@ -40,10 +40,8 @@ class FragmentNews : Fragment(R.layout.fragment_news) {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.fragmentNewsSwipeRefreshContainer?.setOnRefreshListener {
-            viewModel.updateNewsFromRemote()
+            viewModel.getNewsFromRemoteAndUpdateRoom()
         }
-
-        viewModel.getNews()
     }
 
 

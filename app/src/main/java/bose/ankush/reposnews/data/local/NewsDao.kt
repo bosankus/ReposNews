@@ -3,7 +3,6 @@ package bose.ankush.reposnews.data.local
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import java.util.*
 
 /**Created by
 Author: Ankush Bose
@@ -14,20 +13,16 @@ Date: 20,May,2021
 interface NewsDao {
 
     @Transaction
-    suspend fun updateNews(newsList: ArrayList<NewsEntity>?) {
+    suspend fun updateNews(newsList: List<NewsEntity>?) {
         deleteAllNews()
-        newsList?.let { list ->
-            list.forEach {
-                insertNews(it)
-            }
-        }
+        newsList?.let { list -> list.forEach { insertNews(it) } }
     }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertNews(news: NewsEntity)
 
     @Query("SELECT * FROM news_table")
-    fun getNews(): Flow<List<NewsEntity?>>
+    fun getNewsViaFlow(): Flow<List<NewsEntity?>>
 
     @Query("SELECT * FROM news_table")
     fun getNewsLiveData(): LiveData<List<NewsEntity?>>
