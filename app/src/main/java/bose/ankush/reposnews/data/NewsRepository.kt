@@ -3,10 +3,13 @@ package bose.ankush.reposnews.data
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.network.ApiService
+import bose.ankush.reposnews.data.network.News
 import bose.ankush.reposnews.util.convertToNewsEntity
 import bose.ankush.reposnews.util.isEqual
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import java.util.ArrayList
 import javax.inject.Inject
 
 /**Created by
@@ -20,36 +23,18 @@ class NewsRepository @Inject constructor(
 ) : NewsDataImpl {
 
 
-    override suspend fun getNewsFromLocal(): List<NewsEntity?> = dao.getNews()
+    override fun getNewsFromLocal(): Flow<List<NewsEntity?>> = dao.getNews()
 
-
-    override suspend fun fetchNewsAndSaveToLocal(): List<NewsEntity?> {
-        dao.deleteAllNews()
+    override suspend fun fetchNewsAndSaveToLocal() {
         withContext(Dispatchers.IO) {
-            val response = apiService.getNews(SEARCH_KEYWORD)
-            response?.articles?.convertToNewsEntity()?.forEach { dao.insertNews(it) }
+            val response: News? = apiService.getNews(SEARCH_KEYWORD)
+            val newsArrayList: ArrayList<NewsEntity>? = response?.articles?.convertToNewsEntity()
+            // TODO: Check if the news list is changed then only update
+            dao.updateNews(newsArrayList)
         }
-        return dao.getNews()
     }
-
-
-    suspend fun updateNewsFromInternet() = withContext(Dispatchers.IO) {
-        val response = apiService.getNews(SEARCH_KEYWORD)
-        val newsFromRemote = response?.articles?.convertToNewsEntity()
-        val newsFromLocal = getNewsFromLocal()
-        newsFromRemote?.let {
-            if (isEqual(newsFromLocal, it.toList())) false
-            else {
-                dao.deleteAllNews()
-                it.forEach { item -> dao.insertNews(item) }
-                true
-            }
-        }
-        false
-    }
-
 
     companion object {
-        const val SEARCH_KEYWORD = "energy"
+        const val SEARCH_KEYWORD = "robot"
     }
 }

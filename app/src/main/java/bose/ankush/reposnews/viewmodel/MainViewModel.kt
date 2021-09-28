@@ -5,16 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.*
 import bose.ankush.reposnews.data.NewsRepository
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.util.ResultData
-import bose.ankush.reposnews.util.WORKER_TAG
-import bose.ankush.reposnews.worker.NewsUpdateWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**Created by
@@ -23,11 +20,7 @@ Date: 19,May,2021
  **/
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val dataSource: NewsRepository,
-    private val workManager: WorkManager
-) :
-    ViewModel() {
+class MainViewModel @Inject constructor(private val dataSource: NewsRepository) : ViewModel() {
 
     private var _newsData = MutableLiveData<ResultData<List<NewsEntity?>>>(ResultData.DoNothing)
     val newsData: LiveData<ResultData<List<NewsEntity?>>> get() = _newsData
@@ -38,53 +31,21 @@ class MainViewModel @Inject constructor(
 
 
     init {
-        startNewsUpdateWorker()
+        updateNewsFromRemote()
     }
 
+    // fetch news from remote and store in room
+    fun updateNewsFromRemote() =
+        viewModelScope.launch(newsExceptionHandler) { dataSource.fetchNewsAndSaveToLocal() }
 
-    fun fetchNews() {
+
+    // only fetches news from local via flow
+    fun getNews() {
         _newsData.postValue(ResultData.Loading)
-        viewModelScope.launch(newsExceptionHandler) {
-            val response = dataSource.getNewsFromLocal()
-            if (response.isEmpty()) {
-                val news = dataSource.fetchNewsAndSaveToLocal()
-                _newsData.postValue(ResultData.Success(news))
-            } else {
-                _newsData.postValue(ResultData.Success(response))
+        viewModelScope.launch {
+            dataSource.getNewsFromLocal().collect { newsList ->
+                if (newsList.isNotEmpty()) _newsData.postValue(ResultData.Success(newsList))
             }
         }
-    }
-
-
-    fun updateNews() {
-        _newsData.postValue(ResultData.Loading)
-        viewModelScope.launch(newsExceptionHandler) {
-            dataSource.updateNewsFromInternet()
-            _newsData.postValue(ResultData.Success(dataSource.getNewsFromLocal()))
-        }
-    }
-
-
-    private fun startNewsUpdateWorker() {
-        val workConstraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        val periodicWorkRequest = PeriodicWorkRequestBuilder<NewsUpdateWorker>(2, TimeUnit.DAYS)
-            .setConstraints(workConstraints)
-            .addTag(WORKER_TAG)
-            .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
-                TimeUnit.MILLISECONDS
-            )
-            .build()
-
-        workManager
-            .enqueueUniquePeriodicWork(
-                "work_name",
-                ExistingPeriodicWorkPolicy.KEEP,
-                periodicWorkRequest
-            )
     }
 }

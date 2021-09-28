@@ -2,7 +2,6 @@ package bose.ankush.reposnews.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.work.WorkManager
 import bose.ankush.reposnews.data.NewsRepository
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsDatabase
@@ -99,9 +98,4 @@ object AppModule {
     @Provides
     fun provideNewsRepository(apiService: ApiService, dao: NewsDao) =
         NewsRepository(apiService, dao)
-
-
-    @Singleton
-    @Provides
-    fun providesWorkManager(@ApplicationContext app: Context) = WorkManager.getInstance(app).also { it.pruneWork() }
 }
