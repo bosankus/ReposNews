@@ -35,6 +35,11 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideSharedPreference(@ApplicationContext app: Context): SharedPreferences =
+        app.getSharedPreferences("APP_PREFERENCE", Context.MODE_PRIVATE)
+
+    @Singleton
+    @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }

@@ -3,8 +3,10 @@ package bose.ankush.reposnews.data
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.network.ApiService
-import bose.ankush.reposnews.data.network.News
+import bose.ankush.reposnews.util.bothListsMatch
+import bose.ankush.reposnews.util.convertToNewsEntity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,15 +22,22 @@ class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
 
 
-    override fun getNewsFromLocal(): Flow<List<NewsEntity?>> = dao.getNewsViaFlow()
+    override fun getNewsFromLocal(): Flow<List<NewsEntity?>>? = dao.getNewsViaFlow()
 
-    override suspend fun getNewsFromRemote(): News? =
-        withContext(Dispatchers.IO) { apiService.getNews(SEARCH_KEYWORD) }
+    override suspend fun updateNews() = withContext(Dispatchers.IO) {
+        val localData = async { dao.getNewsViaLiveData() }
+        val remoteNews = async { apiService.getNews(SEARCH_KEYWORD) }
 
-    override suspend fun updateLocalWithUpdatedNews(news: List<NewsEntity>) =
-        withContext(Dispatchers.IO) { dao.updateNews(news) }
+        val old: List<NewsEntity?>? = localData.await()
+        val new: List<NewsEntity>? = remoteNews.await()
+            ?.articles?.convertToNewsEntity()?.toList()
+
+        if (!((old != null && new != null) && bothListsMatch(old, new)))
+            new?.let { dao.updateNews(it) }
+
+    }
 
     companion object {
-        const val SEARCH_KEYWORD = "vaccine"
+        const val SEARCH_KEYWORD = "injection"
     }
 }

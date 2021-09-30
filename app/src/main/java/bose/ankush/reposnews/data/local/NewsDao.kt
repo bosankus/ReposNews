@@ -13,21 +13,21 @@ Date: 20,May,2021
 interface NewsDao {
 
     @Transaction
-    suspend fun updateNews(newsList: List<NewsEntity>?) {
+    suspend fun updateNews(newsList: List<NewsEntity?>?) {
         deleteAllNews()
-        newsList?.let { list -> list.forEach { insertNews(it) } }
+        newsList?.let { list -> list.forEach { item -> item?.let { insertNews(it) } } }
     }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertNews(news: NewsEntity)
 
-    @Query("SELECT * FROM news_table")
-    fun getNewsViaFlow(): Flow<List<NewsEntity?>>
-
-    @Query("SELECT * FROM news_table")
-    fun getNewsLiveData(): LiveData<List<NewsEntity?>>
-
     @Query("DELETE FROM news_table")
     suspend fun deleteAllNews()
+
+    @Query("SELECT * FROM news_table")
+    fun getNewsViaFlow(): Flow<List<NewsEntity?>>?
+
+    @Query("SELECT * FROM news_table")
+    fun getNewsViaLiveData(): List<NewsEntity?>?
 
 }
