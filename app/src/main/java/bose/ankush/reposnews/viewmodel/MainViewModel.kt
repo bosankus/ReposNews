@@ -1,7 +1,6 @@
 package bose.ankush.reposnews.viewmodel
 
 
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,16 +20,10 @@ Date: 19,May,2021
  **/
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val dataSource: NewsRepository,
-    private val sharedPreferences: SharedPreferences
-) : ViewModel() {
+class MainViewModel @Inject constructor(private val dataSource: NewsRepository) : ViewModel() {
 
     private var _newsData = MutableLiveData<ResultData<List<NewsEntity?>>>(ResultData.DoNothing)
     val newsData: LiveData<ResultData<List<NewsEntity?>>> get() = _newsData
-
-    private var _isFreshNewsAvailable = MutableLiveData<Boolean>()
-    val isFreshNewsAvailable: LiveData<Boolean> get() = _isFreshNewsAvailable
 
     private val newsExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _newsData.postValue(ResultData.Failed("${exception.message}"))

@@ -1,7 +1,6 @@
 package bose.ankush.reposnews.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.room.Room
 import bose.ankush.reposnews.data.NewsRepository
 import bose.ankush.reposnews.data.NewsRepositoryImpl
@@ -32,11 +31,6 @@ Date: 19,May,2021
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    @Singleton
-    @Provides
-    fun provideSharedPreference(@ApplicationContext app: Context): SharedPreferences =
-        app.getSharedPreferences("APP_PREFERENCE", Context.MODE_PRIVATE)
 
     @Singleton
     @Provides
