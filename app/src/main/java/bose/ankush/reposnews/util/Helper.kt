@@ -1,7 +1,9 @@
 package bose.ankush.reposnews.util
 
+import android.view.View
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.network.News
+import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
 /**Created by
@@ -12,9 +14,9 @@ Date: 19,May,2021
 
 fun logMessage(message: String) = Timber.d(message)
 
-/*fun showSnack(view: View, message: String) {
+fun showSnack(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
-}*/
+}
 
 fun <T> bothListsMatch(a: List<T?>, b: List<T?>): Boolean {
     return a.size == b.size && a.containsAll(b)

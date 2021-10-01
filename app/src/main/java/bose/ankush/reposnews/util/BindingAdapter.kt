@@ -19,7 +19,7 @@ Date: 20,May,2021
 
 @BindingAdapter("setContentText", "newsLink")
 fun TextView.setContentText(txt: String, newsLink: String?) {
-    var givenString = "$txt.."
+    val givenString = "$txt.."
     text = newsLink?.let {
         val link = "<a href=$it>Read More</a></u>"
         HtmlCompat.fromHtml("$givenString $link", HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -55,9 +55,16 @@ fun TextView.errorText(response: ResultData<*>) {
 }
 
 
-@BindingAdapter("isSwipeRefreshing")
-fun SwipeRefreshLayout.refreshingVisibility(response: ResultData<*>) {
+@BindingAdapter("getNewsState")
+fun SwipeRefreshLayout.getNewsState(response: ResultData<*>) {
     this.isRefreshing = response is ResultData.Loading
+}
+
+@BindingAdapter("newsUpdateListener")
+fun SwipeRefreshLayout.newsUpdateListener(isFreshNewsAvailable: Boolean) {
+    if (!isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "News updated")
+    else if (isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "Already updated")
+    isRefreshing = false
 }
 
 @BindingAdapter("newsList")

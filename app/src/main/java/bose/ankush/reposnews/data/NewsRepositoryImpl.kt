@@ -24,7 +24,9 @@ class NewsRepositoryImpl @Inject constructor(
 
     override fun getNewsFromLocal(): Flow<List<NewsEntity?>>? = dao.getNewsViaFlow()
 
-    override suspend fun updateNews() = withContext(Dispatchers.IO) {
+    override suspend fun updateNews(): Boolean = withContext(Dispatchers.IO) {
+        val isDataMatching: Boolean
+
         val localData = async { dao.getNewsViaLiveData() }
         val remoteNews = async { apiService.getNews(SEARCH_KEYWORD) }
 
@@ -32,12 +34,14 @@ class NewsRepositoryImpl @Inject constructor(
         val new: List<NewsEntity>? = remoteNews.await()
             ?.articles?.convertToNewsEntity()?.toList()
 
-        if (!((old != null && new != null) && bothListsMatch(old, new)))
-            new?.let { dao.updateNews(it) }
+        isDataMatching = ((old != null && new != null) && bothListsMatch(old, new))
 
+        if (!isDataMatching) new?.let { dao.updateNews(it) }
+
+        isDataMatching
     }
 
     companion object {
-        const val SEARCH_KEYWORD = "injection"
+        const val SEARCH_KEYWORD = "BMW"
     }
 }

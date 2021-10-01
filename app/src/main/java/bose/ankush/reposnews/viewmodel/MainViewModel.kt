@@ -25,6 +25,9 @@ class MainViewModel @Inject constructor(private val dataSource: NewsRepository) 
     private var _newsData = MutableLiveData<ResultData<List<NewsEntity?>>>(ResultData.DoNothing)
     val newsData: LiveData<ResultData<List<NewsEntity?>>> get() = _newsData
 
+    private var _newsUpdateStatus = MutableLiveData<Boolean>()
+    val newsUpdateStatus: LiveData<Boolean> get() = _newsUpdateStatus
+
     private val newsExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _newsData.postValue(ResultData.Failed("${exception.message}"))
     }
@@ -43,7 +46,8 @@ class MainViewModel @Inject constructor(private val dataSource: NewsRepository) 
         viewModelScope.launch(newsExceptionHandler) {
             dataSource.getNewsFromLocal()?.collect { newsList ->
                 freshNews = newsList
-                if (newsList.isNotEmpty()) _newsData.postValue(ResultData.Success(newsList))
+                if (newsList.isNotEmpty())
+                    _newsData.postValue(ResultData.Success(newsList))
             }
                 ?: _newsData.postValue(ResultData.Failed("Oops! No news found."))
         }
@@ -51,5 +55,7 @@ class MainViewModel @Inject constructor(private val dataSource: NewsRepository) 
 
     // update fresh news from remote
     fun updateFreshNewsFromRemote() =
-        viewModelScope.launch(newsExceptionHandler) { dataSource.updateNews() }
+        viewModelScope.launch(newsExceptionHandler) {
+            _newsUpdateStatus.postValue(dataSource.updateNews())
+        }
 }

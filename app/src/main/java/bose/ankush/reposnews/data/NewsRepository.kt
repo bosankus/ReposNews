@@ -12,5 +12,5 @@ interface NewsRepository {
 
     fun getNewsFromLocal(): Flow<List<NewsEntity?>>?
 
-    suspend fun updateNews()
+    suspend fun updateNews(): Boolean
 }
