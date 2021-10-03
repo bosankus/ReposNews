@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import bose.ankush.reposnews.R
 import bose.ankush.reposnews.databinding.FragmentNewsBinding
 import bose.ankush.reposnews.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**Created by
 Author: Ankush Bose
@@ -42,6 +45,13 @@ class FragmentNews : Fragment(R.layout.fragment_news) {
         binding?.fragmentNewsSwipeRefreshContainer?.setOnRefreshListener {
             viewModel.updateFreshNewsFromRemote()
         }
+
+        // below line contains the issue.
+        /*viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // show the updates
+            }
+        }*/
     }
 
 
