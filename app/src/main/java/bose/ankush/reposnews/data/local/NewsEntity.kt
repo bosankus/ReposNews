@@ -15,8 +15,6 @@ Date: 20,May,2021
 @Entity(tableName = "news_table")
 @Parcelize
 data class NewsEntity(
-    @ColumnInfo(name = "author")
-    val author: String? = "",
     @ColumnInfo(name = "content")
     val content: String? = "",
     @ColumnInfo(name = "description")
@@ -31,6 +29,8 @@ data class NewsEntity(
     val url: String? = "",
     @ColumnInfo(name = "urlToImage")
     val urlToImage: String? = "",
+    @ColumnInfo(name = "newsUpdateTime")
+    val newsUpdateTime: String = ""
 ) : Parcelable {
     @IgnoredOnParcel
     @PrimaryKey(autoGenerate = true)

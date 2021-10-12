@@ -3,8 +3,8 @@ package bose.ankush.reposnews.data
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.network.ApiService
+import bose.ankush.reposnews.data.network.toNewsEntityList
 import bose.ankush.reposnews.util.bothListsMatch
-import bose.ankush.reposnews.util.convertToNewsEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -31,8 +31,8 @@ class NewsRepositoryImpl @Inject constructor(
         val remoteNews = async { apiService.getNews(SEARCH_KEYWORD) }
 
         val old: List<NewsEntity?>? = localData.await()
-        val new: List<NewsEntity>? = remoteNews.await()
-            ?.articles?.convertToNewsEntity()?.toList()
+        val new: List<NewsEntity?>? =
+            remoteNews.await()?.articles?.map { article -> article?.toNewsEntityList() }
 
         isDataMatching = ((old != null && new != null) && bothListsMatch(old, new))
 
