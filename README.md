@@ -19,6 +19,7 @@ Once you have the api key, add it inside `API_KEY=<your_api_key>` in `local.prop
 - Navigation - Handle everything needed for in-app navigation.
 - Room - Access your app's SQLite database with in-app objects and compile-time checks.
 - ViewModel - Store UI-related data that isn't destroyed on app rotations. Easily schedule asynchronous tasks for optimal execution.
+- Coroutine - for async operations
 - Glide for image loading
 - Hilt: for dependency injection
 - Kotlin Coroutines for managing background threads with simplified code and reducing needs for callbacks
