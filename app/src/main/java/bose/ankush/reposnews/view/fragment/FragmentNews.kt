@@ -45,13 +45,6 @@ class FragmentNews : Fragment(R.layout.fragment_news) {
         binding?.fragmentNewsSwipeRefreshContainer?.setOnRefreshListener {
             viewModel.updateFreshNewsFromRemote()
         }
-
-        // below line contains the issue.
-        /*viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // show the updates
-            }
-        }*/
     }
 
 

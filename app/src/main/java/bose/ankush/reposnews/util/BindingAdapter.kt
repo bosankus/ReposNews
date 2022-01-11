@@ -1,5 +1,7 @@
 package bose.ankush.reposnews.util
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,6 +26,24 @@ fun TextView.setContentText(txt: String, newsLink: String?) {
         val link = "<a href=$it>Read More</a></u>"
         HtmlCompat.fromHtml("$givenString $link", HtmlCompat.FROM_HTML_MODE_LEGACY)
     } ?: givenString
+}
+
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("setSource")
+fun TextView.setSourceText(txt: String?) {
+    txt?.let { this.text = "$it |" }
+}
+
+
+@BindingAdapter("setNewsTime")
+fun TextView.setNewsTimeText(txt: String?) {
+    txt?.let {
+        // if OS is above Android O then change format, else show as it is.
+        this.text =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) it.showDayDateAndMonth()
+            else it
+    }
 }
 
 
@@ -73,5 +93,4 @@ fun RecyclerView.setList(response: ResultData<List<NewsEntity?>>) {
     this.adapter = newsAdapter
     if (response is ResultData.Success && response.data != null) newsAdapter.submitList(response.data)
     else newsAdapter.submitList(emptyList())
-    this.scheduleLayoutAnimation()
 }

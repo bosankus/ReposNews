@@ -1,14 +1,14 @@
 package bose.ankush.reposnews.util
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.View
-import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.data.network.News
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
-import java.time.Instant
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**Created by
 Author: Ankush Bose
@@ -23,6 +23,21 @@ fun showSnack(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
 }
 
-fun <T> bothListsMatch(a: List<T?>, b: List<T?>): Boolean {
-    return a.size == b.size && a.containsAll(b)
+inline fun <reified T> bothListsMatch(first: List<T?>, second: List<T?>): Boolean {
+    if (first.size != second.size) {
+        return false
+    }
+    return first.zip(second).all { (x, y) -> x == y }
+}
+
+@SuppressLint("SimpleDateFormat")
+fun String.showDayDateAndMonth(): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val parsedDate = LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
+        parsedDate.format(DateTimeFormatter.ofPattern("E, MMM dd yyyy h:mm a"))
+    } else {
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val formatter = SimpleDateFormat("E, MMM dd yyyy h:mm a")
+        formatter.format(checkNotNull(parser.parse(this)))
+    }
 }

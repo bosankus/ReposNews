@@ -12,4 +12,5 @@
     <dimen name="gap_10dp">10dp</dimen>
     <dimen name="size_90dp">90dp</dimen>
     <dimen name="gap_8dp">8dp</dimen>
+    <dimen name="gap_5dp">5dp</dimen>
 </resources>
