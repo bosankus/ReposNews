@@ -34,7 +34,8 @@ class NewsRepositoryImpl @Inject constructor(
         val new: List<NewsEntity?>? =
             remoteNews.await()?.articles?.map { article -> article?.toNewsEntityList() }
 
-        isDataMatching = ((old != null && new != null) && bothListsMatch(old, new))
+        isDataMatching =
+            ((old?.isNotEmpty() == true && new?.isNotEmpty() == true) && bothListsMatch(old, new))
 
         if (!isDataMatching) new?.let { dao.updateNews(it) }
 
@@ -42,6 +43,6 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     companion object {
-        const val SEARCH_KEYWORD = "BMW"
+        const val SEARCH_KEYWORD = "covid"
     }
 }

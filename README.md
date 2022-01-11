@@ -2,7 +2,7 @@
 
 ResposNews was intially a project during one of my interview. Later became one of my playground project. App follows MVVM pattern, and have two screens.
 One containing all the news fetched from RoomDB.
-Another screen for news details, which is shown on news item click.
+Another screen for news details, which is shown on news list item click.
 
 The news search `SEARCH_KEYWORD` is hardcoded currently as *BMW*
 
@@ -22,13 +22,14 @@ Once you have the api key, add it inside `API_KEY=<your_api_key>` in `local.prop
 - Coroutine - for async operations
 - Glide for image loading
 - Hilt: for dependency injection
-- Kotlin Coroutines for managing background threads with simplified code and reducing needs for callbacks
+- Kotlin Coroutines: for managing background threads with simplified code and reducing needs for callbacks
 
 
 ##Upcomings:
 - News search option
 - To convert into clean code architecture: Issue: #1
-- Add testing for entire app
+- To modularize app, new module with MVP architecture: Issue: #2
+- Add testing for entire app: #3
 
 
 ## Contributing
