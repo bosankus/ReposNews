@@ -43,6 +43,6 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     companion object {
-        const val SEARCH_KEYWORD = "covid"
+        const val SEARCH_KEYWORD = "abuse"
     }
 }

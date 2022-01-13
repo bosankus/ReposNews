@@ -7,4 +7,4 @@ Date: 19,May,2021
 
 const val BASE_URL = "https://newsapi.org/"
 const val DATABASE_NAME = "news_database"
-const val DEFAULT_TIME: Long = 1299045057
+const val HEADLINE_SOURCE_NAME = "google-news-in"

@@ -2,6 +2,7 @@ package bose.ankush.reposnews.util
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.view.RoundedCorner
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,6 +14,8 @@ import bose.ankush.reposnews.R
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.view.adapter.NewsAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 /**Created by
 Author: Ankush Bose
@@ -41,8 +44,8 @@ fun TextView.setNewsTimeText(txt: String?) {
     txt?.let {
         // if OS is above Android O then change format, else show as it is.
         this.text =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) it.showDayDateAndMonth()
-            else it
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) "${it.showDayDateAndMonth()} | "
+            else "$it | "
     }
 }
 
@@ -52,7 +55,7 @@ fun ImageView.setImage(url: String?) {
     url?.let {
         Glide.with(this.context)
             .load(it)
-            .centerCrop()
+            .transform(CenterCrop(), RoundedCorners(30))
             .into(this)
     }
 }
