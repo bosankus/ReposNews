@@ -2,12 +2,15 @@ package bose.ankush.reposnews.data
 
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsEntity
+import bose.ankush.reposnews.data.local.TopHeadlinesIndia
 import bose.ankush.reposnews.data.network.ApiService
 import bose.ankush.reposnews.data.network.toNewsEntityList
 import bose.ankush.reposnews.util.bothListsMatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -21,6 +24,10 @@ class NewsRepositoryImpl @Inject constructor(
     private val dao: NewsDao
 ) : NewsRepository {
 
+    override fun getHeadlines(): Flow<TopHeadlinesIndia?> = flow {
+        val result: TopHeadlinesIndia? = apiService.getTopHeadlinesIndia()
+        result?.let { emit(it) } ?: return@flow
+    }.flowOn(Dispatchers.IO)
 
     override fun getNewsFromLocal(): Flow<List<NewsEntity?>>? = dao.getNewsViaFlow()
 
@@ -42,7 +49,16 @@ class NewsRepositoryImpl @Inject constructor(
         isDataMatching
     }
 
+    override suspend fun bookmarkNewsItem(newsEntity: NewsEntity) {
+        withContext(Dispatchers.IO) {
+            if (newsEntity.isBookmarked) dao.bookmarkNewsItem(newsEntity.id, false)
+            else dao.bookmarkNewsItem(newsEntity.id, true)
+        }
+    }
+
+    override fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>? = dao.getAllBookmarkedNews()
+
     companion object {
-        const val SEARCH_KEYWORD = "covid"
+        const val SEARCH_KEYWORD = "abuse"
     }
 }

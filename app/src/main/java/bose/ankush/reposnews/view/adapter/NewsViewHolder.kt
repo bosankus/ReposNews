@@ -15,7 +15,12 @@ Date: 20,May,2021
 class NewsViewHolder(private var binding: LayoutNewsListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(newsEntityItem: NewsEntity, position: Int) {
+    fun bind(
+        newsEntityItem: NewsEntity,
+        itemBookmarkClickListener: (news: NewsEntity) -> Unit,
+        itemShareClickListener: (newsId: NewsEntity) -> Unit,
+        position: Int
+    ) {
         binding.apply {
             news = newsEntityItem
             layoutNewsListItemContainer.setOnClickListener {
@@ -26,6 +31,8 @@ class NewsViewHolder(private var binding: LayoutNewsListItemBinding) :
                     FragmentNewsDirections.actionFragmentNewsToFragmentNewsDetails(newsEntityItem)
                 it.findNavController().navigate(action)
             }
+            layoutNewsListItemImgBookmark.setOnClickListener { itemBookmarkClickListener(newsEntityItem) }
+            layoutNewsListItemImgShare.setOnClickListener { itemShareClickListener(newsEntityItem) }
             executePendingBindings()
         }
     }

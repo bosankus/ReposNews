@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import bose.ankush.reposnews.R
+import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.databinding.FragmentNewsBinding
-import bose.ankush.reposnews.viewmodel.MainViewModel
+import bose.ankush.reposnews.util.ResultData
+import bose.ankush.reposnews.util.shareNews
+import bose.ankush.reposnews.view.adapter.NewsAdapter
+import bose.ankush.reposnews.viewmodel.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 /**Created by
 Author: Ankush Bose
@@ -24,7 +25,7 @@ Date: 20,May,2021
 class FragmentNews : Fragment(R.layout.fragment_news) {
 
     private var binding: FragmentNewsBinding? = null
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: NewsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +43,33 @@ class FragmentNews : Fragment(R.layout.fragment_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.fragmentNewsSwipeRefreshContainer?.setOnRefreshListener {
-            viewModel.updateFreshNewsFromRemote()
+        binding?.fragmentIncludedNewsLayout?.fragmentNewsSwipeRefreshContainer
+            ?.setOnRefreshListener { viewModel.updateFreshNewsFromRemote() }
+
+        setDataOnNewsRecyclerView()
+    }
+
+
+    private fun setDataOnNewsRecyclerView() {
+        val newsAdapter = NewsAdapter(::bookmarkNewsItem, ::shareNewsItem)
+        binding?.fragmentIncludedNewsLayout?.fragmentNewsRvNews?.adapter = newsAdapter
+        viewModel.newsData.observe(viewLifecycleOwner) { response ->
+            if (response is ResultData.Success && response.data != null) newsAdapter.submitList(
+                response.data
+            )
+            else newsAdapter.submitList(emptyList())
         }
+    }
+
+
+    private fun bookmarkNewsItem(news: NewsEntity) {
+        viewModel.bookmarkNewsItem(news)
+    }
+
+
+    private fun shareNewsItem(news: NewsEntity) {
+        // TODO: Share news item implementation
+        this.shareNews(news)
     }
 
 
