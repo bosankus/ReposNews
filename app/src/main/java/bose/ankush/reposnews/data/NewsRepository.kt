@@ -1,6 +1,8 @@
 package bose.ankush.reposnews.data
 
 import bose.ankush.reposnews.data.local.NewsEntity
+import bose.ankush.reposnews.data.local.TopHeadlinesIndia
+import bose.ankush.reposnews.util.ResultData
 import kotlinx.coroutines.flow.Flow
 
 /**Created by
@@ -10,7 +12,13 @@ Date: 20,May,2021
 
 interface NewsRepository {
 
+    fun getHeadlines(): Flow<TopHeadlinesIndia?>
+
     fun getNewsFromLocal(): Flow<List<NewsEntity?>>?
 
     suspend fun updateNews(): Boolean
+
+    suspend fun bookmarkNewsItem(newsEntity: NewsEntity)
+
+    fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>?
 }

@@ -11,7 +11,10 @@ Author: Ankush Bose
 Date: 20,May,2021
  **/
 
-class NewsAdapter : ListAdapter<NewsEntity, NewsViewHolder>(DiffUtil()) {
+class NewsAdapter(
+    private val itemBookmarkClickListener: (news: NewsEntity) -> Unit,
+    private val itemShareClickListener: (newsId: NewsEntity) -> Unit
+) : ListAdapter<NewsEntity, NewsViewHolder>(DiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,6 +24,6 @@ class NewsAdapter : ListAdapter<NewsEntity, NewsViewHolder>(DiffUtil()) {
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val newsEntityItem = getItem(position)
-        holder.bind(newsEntityItem, position)
+        holder.bind(newsEntityItem, itemBookmarkClickListener, itemShareClickListener, position)
     }
 }

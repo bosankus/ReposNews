@@ -10,7 +10,7 @@ Date: 20,May,2021
 
 @Database(
     entities = [NewsEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

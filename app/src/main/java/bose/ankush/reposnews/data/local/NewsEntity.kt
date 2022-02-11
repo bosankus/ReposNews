@@ -30,7 +30,9 @@ data class NewsEntity(
     @ColumnInfo(name = "urlToImage")
     val urlToImage: String? = "",
     @ColumnInfo(name = "newsUpdateTime")
-    val newsUpdateTime: String = ""
+    val newsUpdateTime: String = "",
+    @ColumnInfo(name = "isBookmarked")
+    val isBookmarked: Boolean = false
 ) : Parcelable {
     @IgnoredOnParcel
     @PrimaryKey(autoGenerate = true)

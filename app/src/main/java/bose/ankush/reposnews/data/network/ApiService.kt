@@ -1,7 +1,8 @@
 package bose.ankush.reposnews.data.network
 
 import bose.ankush.reposnews.BuildConfig
-import bose.ankush.reposnews.util.HEADLINE_SOURCE_NAME
+import bose.ankush.reposnews.data.local.TopHeadlinesIndia
+import bose.ankush.reposnews.util.COUNTRY_NAME
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,10 +16,10 @@ Date: 19,May,2021
 interface ApiService {
 
     @GET("v2/top-headlines")
-    suspend fun getHeadlines(
-        @Query("sources") sources: String = HEADLINE_SOURCE_NAME,
+    suspend fun getTopHeadlinesIndia(
+        @Query("country") sources: String = COUNTRY_NAME,
         @Query("apikey") apiKey: String = BuildConfig.API_KEY
-    ): News?
+    ): TopHeadlinesIndia?
 
 
     @GET("v2/everything")

@@ -2,17 +2,13 @@ package bose.ankush.reposnews.util
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.view.RoundedCorner
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import bose.ankush.reposnews.R
-import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.view.adapter.NewsAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -61,6 +57,17 @@ fun ImageView.setImage(url: String?) {
 }
 
 
+@BindingAdapter("setBookmarkIndicator")
+fun ImageView.setIndicator(isBookmarked: Boolean) {
+    if (isBookmarked) Glide.with(this.context)
+        .load(R.drawable.ic_selected_bookmark)
+        .into(this)
+    else Glide.with(this.context)
+        .load(R.drawable.ic_unselected_bookmark)
+        .into(this)
+}
+
+
 @BindingAdapter("hasAnyError")
 fun View.errorVisibility(response: ResultData<*>) {
     this.visibility =
@@ -88,12 +95,4 @@ fun SwipeRefreshLayout.newsUpdateListener(isFreshNewsAvailable: Boolean) {
     if (!isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "News updated")
     else if (isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "Already updated")
     isRefreshing = false
-}
-
-@BindingAdapter("newsList")
-fun RecyclerView.setList(response: ResultData<List<NewsEntity?>>) {
-    val newsAdapter = NewsAdapter()
-    this.adapter = newsAdapter
-    if (response is ResultData.Success && response.data != null) newsAdapter.submitList(response.data)
-    else newsAdapter.submitList(emptyList())
 }

@@ -4,6 +4,7 @@
     <dimen name="text_28sp">28sp</dimen>
     <dimen name="gap_0dp">0dp</dimen>
     <dimen name="gap_16dp">16dp</dimen>
+    <dimen name="gap_18dp">18dp</dimen>
     <dimen name="gap_140dp">140dp</dimen>
     <dimen name="gap_100dp">100dp</dimen>
     <dimen name="gap_200dp">200dp</dimen>
