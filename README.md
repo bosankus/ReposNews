@@ -6,7 +6,7 @@ Another screen for news details, which is shown on news list item click.
 
 The news search `SEARCH_KEYWORD` is hardcoded currently as *BMW*
 
-## Updates:
+## Updates 11.02.2022:
 - News UI changed.
 - New API added for top headlines added. UI will be updated on next commit.
 
