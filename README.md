@@ -6,6 +6,9 @@ Another screen for news details, which is shown on news list item click.
 
 The news search `SEARCH_KEYWORD` is hardcoded currently as *BMW*
 
+## Updates:
+- News UI changed.
+- New API added for top headlines added. UI will be updated on next commit.
 
 ## News API
 News data is fetched from [News API](https://newsapi.org/). You can check the documents from [here](https://newsapi.org/docs).
