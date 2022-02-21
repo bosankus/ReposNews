@@ -14,10 +14,6 @@ The news search `SEARCH_KEYWORD` is hardcoded currently as *abuse*
 - News UI changed.
 - New API added for top headlines added. UI will be updated on next commit.
 
-## Updates 11.02.2022:
-- News UI changed.
-- New API added for top headlines added. UI will be updated on next commit.
-
 ## News API
 News data is fetched from [News API](https://newsapi.org/). You can check the documents from [here](https://newsapi.org/docs).
 Once you have the api key, add it inside `API_KEY=<your_api_key>` in `local.properties` file.
