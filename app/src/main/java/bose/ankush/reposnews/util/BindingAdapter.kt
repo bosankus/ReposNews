@@ -29,9 +29,10 @@ fun TextView.setContentText(txt: String, newsLink: String?) {
 
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("setSource")
-fun TextView.setSourceText(txt: String?) {
-    txt?.let { this.text = "$it |" }
+@BindingAdapter("sourceName", "author")
+fun TextView.setSourceText(sourceName: String?, author: String?) {
+    this.text = if (sourceName != null && author != null) "$sourceName | $author"
+    else "Source details not available"
 }
 
 
@@ -74,6 +75,24 @@ fun View.errorVisibility(response: ResultData<*>) {
         if (response is ResultData.Failed || (response is ResultData.Success && response.data == null))
             View.VISIBLE
         else View.GONE
+}
+
+
+@BindingAdapter("isHeadlinesLoading", "isNewsLoading")
+fun View.loadingVisibility(headlinesState: ResultData<*>, newsState: ResultData<*>) {
+    visibility =
+        if (headlinesState is ResultData.Loading || newsState is ResultData.Loading) View.VISIBLE
+        else View.GONE
+}
+
+
+@BindingAdapter("isDataLoading")
+fun View.layoutVisibleWhenNotLoading(dataState: ResultData<*>?) {
+    dataState?.let {
+        visibility =
+            if (dataState !is ResultData.Loading) View.VISIBLE
+            else View.GONE
+    }
 }
 
 

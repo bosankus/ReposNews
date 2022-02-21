@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ReposNews</string>
     <string name="news_txt">News</string>
+    <string name="top_headlines_txt">Top Headlines</string>
     <string name="error_txt">Oops, that\'s very rare! something went wrong</string>
     <string name="empty_error_txt">Umm… you don\'t have any news</string>
+    <string name="greeting_header">Hi,</string>
 </resources>

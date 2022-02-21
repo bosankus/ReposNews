@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="articles"
+            type="bose.ankush.reposnews.data.local.Article" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_top_headlines_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gap_8dp"
+        android:layout_marginEnd="@dimen/gap_8dp"
+        app:cardCornerRadius="@dimen/gap_10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/layout_top_headlines_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="@drawable/bg_overlay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/gap_200dp"
+                    android:scaleType="fitCenter"
+                    app:setNewsImage="@{articles.urlToImage}"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/layout_top_headlines_tv_source_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/gap_8dp"
+                android:layout_marginEnd="@dimen/gap_8dp"
+                android:layout_marginBottom="@dimen/gap_8dp"
+                android:alpha="0.8"
+                android:ellipsize="end"
+                android:fontFamily="@font/calibre"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp"
+                app:author="@{articles.author}"
+                app:layout_constraintBottom_toTopOf="@+id/layout_top_headlines_tv_item"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:sourceName="@{articles.source.name}" />
+
+            <TextView
+                android:id="@+id/layout_top_headlines_tv_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/gap_8dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/calibre"
+                android:maxLines="2"
+                android:text="@{articles.title}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/layout_top_headlines_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

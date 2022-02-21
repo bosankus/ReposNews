@@ -8,7 +8,7 @@ Author: Ankush Bose
 Date: 20,May,2021
  **/
 
-class DiffUtil : DiffUtil.ItemCallback<NewsEntity>() {
+class NewsDiffUtil : DiffUtil.ItemCallback<NewsEntity>() {
     override fun areItemsTheSame(
         oldItem: NewsEntity,
         newItem: NewsEntity,

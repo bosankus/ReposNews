@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bose.ankush.reposnews.data.NewsRepository
+import bose.ankush.reposnews.data.local.Article
 import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.data.local.TopHeadlinesIndia
 import bose.ankush.reposnews.util.ResultData
+import bose.ankush.reposnews.util.logMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -26,8 +26,8 @@ Date: 19,May,2021
 @HiltViewModel
 class NewsViewModel @Inject constructor(private val dataSource: NewsRepository) : ViewModel() {
 
-    private var _topHeadLines = MutableLiveData<ResultData<TopHeadlinesIndia>>(ResultData.DoNothing)
-    val topHeadlines: LiveData<ResultData<TopHeadlinesIndia>> = _topHeadLines
+    private var _topHeadLines = MutableLiveData<ResultData<List<Article>>>(ResultData.DoNothing)
+    val topHeadlines: LiveData<ResultData<List<Article>>> = _topHeadLines
 
     private var _newsData = MutableLiveData<ResultData<List<NewsEntity?>>>(ResultData.DoNothing)
     val newsData: LiveData<ResultData<List<NewsEntity?>>> get() = _newsData
@@ -41,10 +41,8 @@ class NewsViewModel @Inject constructor(private val dataSource: NewsRepository) 
 
     private var freshNews = listOf<NewsEntity?>()
 
-
-    private val sortFlow = MutableStateFlow(SORT_TYPE.DEFAULT)
-
     init {
+        getTopHeadlines()
         getNewsFromLocal()
         updateFreshNewsFromRemote()
     }
@@ -54,9 +52,15 @@ class NewsViewModel @Inject constructor(private val dataSource: NewsRepository) 
     private fun getTopHeadlines() {
         _topHeadLines.postValue(ResultData.Loading)
         viewModelScope.launch(newsExceptionHandler) {
-            dataSource.getHeadlines().collect { headlines ->
-                headlines?.let { _topHeadLines.postValue(ResultData.Success(it)) }
-                    ?: _topHeadLines.postValue(ResultData.Failed("No headlines fetched"))
+            try {
+                dataSource.getHeadlines()
+                    .collect { headlines ->
+                        if (headlines?.articles?.isNotEmpty() == true)
+                            _topHeadLines.postValue(ResultData.Success(headlines.articles))
+                        else _topHeadLines.postValue(ResultData.Failed("No headlines fetched"))
+                    }
+            } catch (e: Exception) {
+                logMessage(e.message.toString())
             }
         }
     }
@@ -101,17 +105,4 @@ class NewsViewModel @Inject constructor(private val dataSource: NewsRepository) 
         }
     }
 
-
-    // Using Flow combine
-    val allNews: Flow<List<NewsEntity?>> = checkNotNull(dataSource.getNewsFromLocal())
-    val allBookmarkedNews: Flow<List<NewsEntity?>> = checkNotNull(dataSource.getAllBookmarkedNews())
-
-    val combinedNewsFlow = combine(allNews, allBookmarkedNews) { a, b ->
-        a + b
-    }
-
-}
-
-enum class SORT_TYPE {
-    DEFAULT, BOOKMARKED
 }

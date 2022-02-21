@@ -12,4 +12,5 @@
     <color name="cardBackground">#1E1F2C</color>
     <color name="grey2">#9E9E9E</color>
     <color name="heading_rounded_bg">#ECDBBA</color>
+    <color name="shimmerColor">#DDDDDD</color>
 </resources>

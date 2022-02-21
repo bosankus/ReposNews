@@ -6,9 +6,11 @@ import bose.ankush.reposnews.data.local.TopHeadlinesIndia
 import bose.ankush.reposnews.data.network.ApiService
 import bose.ankush.reposnews.data.network.toNewsEntityList
 import bose.ankush.reposnews.util.bothListsMatch
+import bose.ankush.reposnews.util.logMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
@@ -26,7 +28,9 @@ class NewsRepositoryImpl @Inject constructor(
 
     override fun getHeadlines(): Flow<TopHeadlinesIndia?> = flow {
         val result: TopHeadlinesIndia? = apiService.getTopHeadlinesIndia()
-        result?.let { emit(it) } ?: return@flow
+        logMessage("Ankush: ${result?.articles}")
+        if (result != null && result.articles.isNotEmpty()) emit(result)
+        else emit(null)
     }.flowOn(Dispatchers.IO)
 
     override fun getNewsFromLocal(): Flow<List<NewsEntity?>>? = dao.getNewsViaFlow()

@@ -41,3 +41,14 @@ fun String.showDayDateAndMonth(): String {
         formatter.format(checkNotNull(parser.parse(this)))
     }
 }
+
+fun greetingMessage(): String {
+    val calendar = Calendar.getInstance()
+    return when (calendar.get(Calendar.HOUR_OF_DAY)) {
+        in 0..11 -> "Good morning"
+        in 12..15 -> "Afternoon"
+        in 16..20 -> "Good evening"
+        in 21..23 -> "Time to sleep. Good night"
+        else -> "Hello"
+    }
+}
