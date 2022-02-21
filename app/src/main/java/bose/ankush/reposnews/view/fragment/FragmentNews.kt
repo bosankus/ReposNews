@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import bose.ankush.reposnews.R
+import bose.ankush.reposnews.data.local.Article
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.databinding.FragmentNewsBinding
 import bose.ankush.reposnews.util.ResultData
+import bose.ankush.reposnews.util.greetingMessage
 import bose.ankush.reposnews.util.shareNews
 import bose.ankush.reposnews.view.adapter.NewsAdapter
+import bose.ankush.reposnews.view.adapter.TopHeadlinesAdapter
 import bose.ankush.reposnews.viewmodel.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,19 +50,40 @@ class FragmentNews : Fragment(R.layout.fragment_news) {
         binding?.fragmentIncludedNewsLayout?.fragmentNewsSwipeRefreshContainer
             ?.setOnRefreshListener { viewModel.updateFreshNewsFromRemote() }
 
+        binding?.fragmentNewsIncludedLayoutHeading?.layoutHeadingTvGreeting?.text = greetingMessage()
+
+        setDataOnTopHeadlineArticleRecyclerView()
         setDataOnNewsRecyclerView()
     }
 
 
+    private fun setDataOnTopHeadlineArticleRecyclerView() {
+        val topHeadlinesAdapter = TopHeadlinesAdapter(::openTopHeadlineItemDetailsInBrowser)
+        binding?.fragmentIncludedNewsLayoutTopHeadlines?.layoutTopHeadlinesRv?.adapter =
+            topHeadlinesAdapter
+        viewModel.topHeadlines.observe(viewLifecycleOwner) { response ->
+            if (response is ResultData.Success && response.data != null)
+                topHeadlinesAdapter.submitList(response.data)
+            else topHeadlinesAdapter.submitList(emptyList())
+        }
+    }
+
+
     private fun setDataOnNewsRecyclerView() {
-        val newsAdapter = NewsAdapter(::bookmarkNewsItem, ::shareNewsItem)
+        val newsAdapter = NewsAdapter(::goToNewsDetailsScreen, ::bookmarkNewsItem, ::shareNewsItem)
         binding?.fragmentIncludedNewsLayout?.fragmentNewsRvNews?.adapter = newsAdapter
         viewModel.newsData.observe(viewLifecycleOwner) { response ->
-            if (response is ResultData.Success && response.data != null) newsAdapter.submitList(
-                response.data
-            )
+            if (response is ResultData.Success && response.data != null)
+                newsAdapter.submitList(response.data)
             else newsAdapter.submitList(emptyList())
         }
+    }
+
+
+    private fun goToNewsDetailsScreen(news: NewsEntity) {
+        val action =
+            FragmentNewsDirections.actionFragmentNewsToFragmentNewsDetails(news)
+        requireView().findNavController().navigate(action)
     }
 
 
@@ -68,10 +93,12 @@ class FragmentNews : Fragment(R.layout.fragment_news) {
 
 
     private fun shareNewsItem(news: NewsEntity) {
-        // TODO: Share news item implementation
         this.shareNews(news)
     }
 
+    private fun openTopHeadlineItemDetailsInBrowser(article: Article) {
+        // TODO: Open any browser to open the news in details
+    }
 
     override fun onDestroyView() {
         binding = null

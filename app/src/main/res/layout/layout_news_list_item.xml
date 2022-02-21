@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -15,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/gap_16dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/imgNews"
             android:layout_width="@dimen/gap_100dp"
             android:layout_height="@dimen/gap_100dp"
@@ -23,7 +24,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setNewsImage="@{news.urlToImage}" />
+            app:setNewsImage="@{news.urlToImage}"
+            tools:ignore="ContentDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvNewsTitle"
@@ -78,10 +80,10 @@
             android:layout_marginTop="@dimen/gap_16dp"
             android:alpha="0.8"
             android:scaleType="fitCenter"
-            app:setBookmarkIndicator="@{news.isBookmarked}"
             android:src="@drawable/ic_unselected_bookmark"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvNewsPublishedAt" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNewsPublishedAt"
+            app:setBookmarkIndicator="@{news.isBookmarked}" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/layout_news_list_item_img_share"

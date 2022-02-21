@@ -58,17 +58,17 @@ dependencies {
     // Room
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     // will be updated later. occurring build error
-    implementation 'androidx.room:room-ktx:2.3.0'
-    kapt "androidx.room:room-compiler:2.3.0"
+    implementation 'androidx.room:room-ktx:2.4.1'
+    kapt "androidx.room:room-compiler:2.4.1"
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
 
     // Moshi Converter
     implementation "com.squareup.moshi:moshi:1.12.0"
@@ -87,6 +87,9 @@ dependencies {
     // Recyclerview
     implementation "androidx.recyclerview:recyclerview:1.2.1"
 
+    // ViewPager 2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
     // Paging 3
     implementation "androidx.paging:paging-runtime-ktx:3.1.0"
 
@@ -99,6 +102,9 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // Shimmer effect
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
 
     // Canary leak
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="bose.ankush.reposnews.viewmodel.NewsViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/layout_heading_tv_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap_16dp"
+            android:layout_marginEnd="@dimen/gap_16dp"
+            android:layout_marginTop="@dimen/gap_16dp"
+            android:fontFamily="@font/calibre"
+            android:text="@string/greeting_header"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18sp" />
+
+        <TextView
+            android:id="@+id/layout_heading_tv_greeting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_heading_tv_header"
+            android:layout_marginStart="@dimen/gap_16dp"
+            android:layout_marginEnd="@dimen/gap_16dp"
+            android:layout_marginTop="@dimen/gap_3dp"
+            android:fontFamily="@font/calibre"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_26sp" />
+
+    </RelativeLayout>
+
+</layout>

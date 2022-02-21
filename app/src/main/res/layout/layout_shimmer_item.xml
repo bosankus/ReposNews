@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--News Shimmer-->
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/layout_shimmer_heading_two"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gap_16dp"
+        android:layout_marginLeft="@dimen/gap_16dp"
+        android:layout_marginTop="@dimen/gap_25dp"
+        android:background="@color/shimmerColor"
+        android:paddingStart="@dimen/gap_10dp"
+        android:paddingTop="@dimen/gap_3dp"
+        android:paddingEnd="@dimen/gap_10dp"
+        android:paddingBottom="@dimen/gap_3dp"
+        android:textSize="@dimen/text_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--News Item layout-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_shimmer_news_item_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gap_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_heading_two">
+
+        <ImageView
+            android:id="@+id/layout_shimmer_news_item_one_img"
+            android:layout_width="@dimen/gap_100dp"
+            android:layout_height="@dimen/gap_100dp"
+            android:background="@color/shimmerColor"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/layout_shimmer_news_item_one_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/gap_8dp"
+            android:layout_marginRight="@dimen/gap_8dp"
+            android:background="@color/shimmerColor"
+            android:ellipsize="middle"
+            android:fontFamily="@font/calibre"
+            android:maxLines="2"
+            app:layout_constraintEnd_toStartOf="@+id/layout_shimmer_news_item_one_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/layout_shimmer_news_item_one_published"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_5dp"
+            android:alpha="0.6"
+            android:background="@color/shimmerColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_one_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/layout_shimmer_news_item_one_source"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_5dp"
+            android:layout_marginEnd="@dimen/gap_8dp"
+            android:layout_marginRight="@dimen/gap_8dp"
+            android:alpha="0.6"
+            android:background="@color/shimmerColor"
+            app:layout_constraintEnd_toStartOf="@+id/layout_shimmer_news_item_one_img"
+            app:layout_constraintStart_toEndOf="@+id/layout_shimmer_news_item_one_published"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_one_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/layout_shimmer_news_item_one_bookmark"
+            android:layout_width="@dimen/gap_18dp"
+            android:layout_height="@dimen/gap_18dp"
+            android:layout_marginTop="@dimen/gap_16dp"
+            android:alpha="0.8"
+            android:background="@color/shimmerColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_one_published" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/layout_shimmer_news_item_one_share"
+            android:layout_width="@dimen/gap_18dp"
+            android:layout_height="@dimen/gap_18dp"
+            android:layout_marginStart="@dimen/gap_16dp"
+            android:layout_marginLeft="@dimen/gap_16dp"
+            android:layout_marginTop="@dimen/gap_16dp"
+            android:alpha="0.8"
+            android:background="@color/shimmerColor"
+            app:layout_constraintStart_toEndOf="@+id/layout_shimmer_news_item_one_bookmark"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_one_published" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_shimmer_news_item_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gap_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_one">
+
+        <ImageView
+            android:id="@+id/layout_shimmer_news_item_two_img"
+            android:layout_width="@dimen/gap_100dp"
+            android:layout_height="@dimen/gap_100dp"
+            android:background="@color/shimmerColor"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/layout_shimmer_news_item_two_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/gap_8dp"
+            android:layout_marginRight="@dimen/gap_8dp"
+            android:background="@color/shimmerColor"
+            android:ellipsize="middle"
+            android:fontFamily="@font/calibre"
+            android:maxLines="2"
+            app:layout_constraintEnd_toStartOf="@+id/layout_shimmer_news_item_two_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/layout_shimmer_news_item_two_published"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_5dp"
+            android:alpha="0.6"
+            android:background="@color/shimmerColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_two_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/layout_shimmer_news_item_two_source"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap_5dp"
+            android:layout_marginEnd="@dimen/gap_8dp"
+            android:layout_marginRight="@dimen/gap_8dp"
+            android:alpha="0.6"
+            android:background="@color/shimmerColor"
+            app:layout_constraintEnd_toStartOf="@+id/layout_shimmer_news_item_two_img"
+            app:layout_constraintStart_toEndOf="@+id/layout_shimmer_news_item_two_published"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_two_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/layout_shimmer_news_item_two_bookmark"
+            android:layout_width="@dimen/gap_18dp"
+            android:layout_height="@dimen/gap_18dp"
+            android:layout_marginTop="@dimen/gap_16dp"
+            android:alpha="0.8"
+            android:background="@color/shimmerColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_two_published" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/layout_shimmer_news_item_two_share"
+            android:layout_width="@dimen/gap_18dp"
+            android:layout_height="@dimen/gap_18dp"
+            android:layout_marginStart="@dimen/gap_16dp"
+            android:layout_marginLeft="@dimen/gap_16dp"
+            android:layout_marginTop="@dimen/gap_16dp"
+            android:alpha="0.8"
+            android:background="@color/shimmerColor"
+            app:layout_constraintStart_toEndOf="@+id/layout_shimmer_news_item_two_bookmark"
+            app:layout_constraintTop_toBottomOf="@+id/layout_shimmer_news_item_two_published" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
