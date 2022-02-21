@@ -1,5 +1,7 @@
 package bose.ankush.reposnews.view.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -97,7 +99,10 @@ class FragmentNews : Fragment(R.layout.fragment_news) {
     }
 
     private fun openTopHeadlineItemDetailsInBrowser(article: Article) {
-        // TODO: Open any browser to open the news in details
+        val newsUrl = article.url
+        val openUrl = Intent(Intent.ACTION_VIEW)
+        openUrl.data = Uri.parse(newsUrl)
+        startActivity(openUrl)
     }
 
     override fun onDestroyView() {
