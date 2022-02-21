@@ -4,7 +4,15 @@ ResposNews was intially a project during one of my interview. Later became one o
 One containing all the news fetched from RoomDB.
 Another screen for news details, which is shown on news list item click.
 
-The news search `SEARCH_KEYWORD` is hardcoded currently as *BMW*
+The news search `SEARCH_KEYWORD` is hardcoded currently as *abuse*
+
+## Updates 21.02.2022:
+- UI updated for top headlines.
+- Top headlines now connected to UI from data source.
+
+## Updates 11.02.2022:
+- News UI changed.
+- New API added for top headlines added. UI will be updated on next commit.
 
 ## Updates 11.02.2022:
 - News UI changed.
