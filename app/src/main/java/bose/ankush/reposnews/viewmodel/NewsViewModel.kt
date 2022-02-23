@@ -12,9 +12,7 @@ import bose.ankush.reposnews.util.ResultData
 import bose.ankush.reposnews.util.logMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -95,7 +93,7 @@ class NewsViewModel @Inject constructor(private val dataSource: NewsRepository) 
 
 
     // get all bookmarked news item
-    fun getAllBookmarkedNews() {
+    /*fun getAllBookmarkedNews() {
         _newsData.postValue(ResultData.Loading)
         viewModelScope.launch {
             dataSource.getAllBookmarkedNews()?.collect { newsList ->
@@ -103,6 +101,6 @@ class NewsViewModel @Inject constructor(private val dataSource: NewsRepository) 
                 else _newsData.postValue(ResultData.Failed("No news found"))
             }
         }
-    }
+    }*/
 
 }

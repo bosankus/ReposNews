@@ -2,7 +2,6 @@ package bose.ankush.reposnews.data
 
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.local.TopHeadlinesIndia
-import bose.ankush.reposnews.util.ResultData
 import kotlinx.coroutines.flow.Flow
 
 /**Created by
