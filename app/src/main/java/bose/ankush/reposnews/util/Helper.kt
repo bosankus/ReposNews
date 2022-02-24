@@ -46,9 +46,9 @@ fun greetingMessage(): String {
     val calendar = Calendar.getInstance()
     return when (calendar.get(Calendar.HOUR_OF_DAY)) {
         in 0..11 -> "Good morning"
-        in 12..15 -> "Afternoon"
+        in 12..15 -> "Good afternoon"
         in 16..20 -> "Good evening"
-        in 21..23 -> "Time to sleep. Good night"
-        else -> "Hello"
+        in 21..23 -> "have a peaceful night"
+        else -> "here are some updates for you.."
     }
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="bose.ankush.reposnews.viewmodel.NewsViewModel" />
+            type="bose.ankush.reposnews.viewmodel.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,11 +17,21 @@
         <include
             android:id="@+id/fragment_news_included_layout_heading"
             layout="@layout/layout_heading"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/gap_0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_included_weather_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/fragment_included_weather_layout"
+            layout="@layout/layout_current_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:viewmodel="@{viewmodel}"
+            app:layout_constraintStart_toEndOf="@+id/fragment_news_included_layout_heading"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <include
             android:id="@+id/fragment_included_news_layout_top_headlines"

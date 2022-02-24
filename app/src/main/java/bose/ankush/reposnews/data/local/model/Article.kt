@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.data.local
+package bose.ankush.reposnews.data.local.model
 
 data class Article(
     val author: String?,

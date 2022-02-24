@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="bose.ankush.reposnews.viewmodel.NewsViewModel" />
+            type="bose.ankush.reposnews.viewmodel.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"

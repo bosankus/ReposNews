@@ -2,13 +2,17 @@ package bose.ankush.reposnews.di
 
 import android.content.Context
 import androidx.room.Room
-import bose.ankush.reposnews.data.NewsRepository
-import bose.ankush.reposnews.data.NewsRepositoryImpl
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsDatabase
-import bose.ankush.reposnews.data.network.ApiService
-import bose.ankush.reposnews.util.BASE_URL
+import bose.ankush.reposnews.data.network.NewsApiService
+import bose.ankush.reposnews.data.network.WeatherApiService
+import bose.ankush.reposnews.data.news_repo.NewsRepository
+import bose.ankush.reposnews.data.news_repo.NewsRepositoryImpl
+import bose.ankush.reposnews.data.weather_repo.WeatherRepository
+import bose.ankush.reposnews.data.weather_repo.WeatherRepositoryImpl
 import bose.ankush.reposnews.util.DATABASE_NAME
+import bose.ankush.reposnews.util.NEWS_URL
+import bose.ankush.reposnews.util.WEATHER_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -21,6 +25,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**Created by
@@ -60,13 +65,15 @@ object AppModule {
     }
 
 
+    @Singleton
     @Provides
-    fun provideRetrofit(
+    @Named("news")
+    fun provideRetrofitForNews(
         moshi: Moshi,
         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(NEWS_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .build()
@@ -75,8 +82,28 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    @Named("weather")
+    fun provideRetrofitForTemperature(
+        moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(WEATHER_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(okHttpClient)
+            .build()
+    }
+
+
+    @Provides
+    fun provideApiServiceForNews(@Named("news") retrofit: Retrofit): NewsApiService {
+        return retrofit.create(NewsApiService::class.java)
+    }
+
+
+    @Provides
+    fun provideApiServiceForTemperature(@Named("weather") retrofit: Retrofit): WeatherApiService {
+        return retrofit.create(WeatherApiService::class.java)
     }
 
 
@@ -98,6 +125,12 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideNewsRepository(apiService: ApiService, dao: NewsDao): NewsRepository =
-        NewsRepositoryImpl(apiService, dao)
+    fun provideNewsRepository(newsApiService: NewsApiService, dao: NewsDao): NewsRepository =
+        NewsRepositoryImpl(newsApiService, dao)
+
+
+    @Singleton
+    @Provides
+    fun provideWeatherRepository(weatherApiService: WeatherApiService): WeatherRepository =
+        WeatherRepositoryImpl(weatherApiService)
 }
