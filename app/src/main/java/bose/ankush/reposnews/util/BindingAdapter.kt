@@ -9,6 +9,7 @@ import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import bose.ankush.reposnews.R
+import bose.ankush.reposnews.data.local.model.Weather
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -17,6 +18,15 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 Author: Ankush Bose
 Date: 20,May,2021
  **/
+
+/*TextView bindings*/
+
+@BindingAdapter("android:text")
+fun TextView.errorText(response: ResultData<*>) {
+    if (response is ResultData.Failed) text = response.message
+    else if (response is ResultData.Success && response.data == null)
+        text = resources.getString(R.string.empty_error_txt)
+}
 
 @BindingAdapter("setContentText", "newsLink")
 fun TextView.setContentText(txt: String, newsLink: String?) {
@@ -27,14 +37,12 @@ fun TextView.setContentText(txt: String, newsLink: String?) {
     } ?: givenString
 }
 
-
 @SuppressLint("SetTextI18n")
 @BindingAdapter("sourceName", "author")
 fun TextView.setSourceText(sourceName: String?, author: String?) {
     this.text = if (sourceName != null && author != null) "$sourceName | $author"
     else "Source details not available"
 }
-
 
 @BindingAdapter("setNewsTime")
 fun TextView.setNewsTimeText(txt: String?) {
@@ -46,6 +54,24 @@ fun TextView.setNewsTimeText(txt: String?) {
     }
 }
 
+@BindingAdapter("setTempInCelsius")
+fun TextView.setTempInCelsius(value: ResultData<*>) {
+    text =
+        if (value is ResultData.Success<*> && value.data is Weather)
+            "${value.data.main?.tempMax?.toCelsius()}°C"
+        else "0°"
+}
+
+@BindingAdapter("setCurrentCity")
+fun TextView.setCurrentCity(value: ResultData<*>) {
+    text =
+        if (value is ResultData.Success<*> && value.data is Weather && value.data.name != null)
+            value.data.name
+        else "..."
+}
+
+
+/* ImageView bindings*/
 
 @BindingAdapter("setNewsImage")
 fun ImageView.setImage(url: String?) {
@@ -57,7 +83,6 @@ fun ImageView.setImage(url: String?) {
     }
 }
 
-
 @BindingAdapter("setBookmarkIndicator")
 fun ImageView.setIndicator(isBookmarked: Boolean) {
     if (isBookmarked) Glide.with(this.context)
@@ -68,6 +93,20 @@ fun ImageView.setIndicator(isBookmarked: Boolean) {
         .into(this)
 }
 
+@BindingAdapter("setWeatherIcon")
+fun ImageView.setIcon(result: ResultData<*>) {
+    if (result is ResultData.Success && result.data is Weather) {
+        result.data.weather?.get(0)?.icon?.let {
+            val iconUrl = "https://openweathermap.org/img/w/${it}.png"
+            Glide.with(this.context)
+                .load(iconUrl)
+                .into(this)
+        }
+    }
+}
+
+
+/* General Layout bindings*/
 
 @BindingAdapter("hasAnyError")
 fun View.errorVisibility(response: ResultData<*>) {
@@ -77,14 +116,12 @@ fun View.errorVisibility(response: ResultData<*>) {
         else View.GONE
 }
 
-
 @BindingAdapter("isHeadlinesLoading", "isNewsLoading")
 fun View.loadingVisibility(headlinesState: ResultData<*>, newsState: ResultData<*>) {
     visibility =
         if (headlinesState is ResultData.Loading || newsState is ResultData.Loading) View.VISIBLE
         else View.GONE
 }
-
 
 @BindingAdapter("isDataLoading")
 fun View.layoutVisibleWhenNotLoading(dataState: ResultData<*>?) {
@@ -96,13 +133,7 @@ fun View.layoutVisibleWhenNotLoading(dataState: ResultData<*>?) {
 }
 
 
-@BindingAdapter("android:text")
-fun TextView.errorText(response: ResultData<*>) {
-    if (response is ResultData.Failed) text = response.message
-    else if (response is ResultData.Success && response.data == null)
-        text = resources.getString(R.string.empty_error_txt)
-}
-
+/*SwipeRefreshLayout bindings*/
 
 @BindingAdapter("getNewsState")
 fun SwipeRefreshLayout.getNewsState(response: ResultData<*>) {

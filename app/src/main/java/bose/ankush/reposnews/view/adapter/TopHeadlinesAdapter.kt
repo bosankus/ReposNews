@@ -3,7 +3,7 @@ package bose.ankush.reposnews.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import bose.ankush.reposnews.data.local.Article
+import bose.ankush.reposnews.data.local.model.Article
 import bose.ankush.reposnews.databinding.LayoutTopHeadlinesItemBinding
 
 class TopHeadlinesAdapter(

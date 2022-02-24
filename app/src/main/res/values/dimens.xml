@@ -2,7 +2,7 @@
 <resources>
     <dimen name="gap_25dp">25dp</dimen>
     <!--<dimen name="gap_35dp">35dp</dimen>-->
-    <!--<dimen name="gap_0dp">0dp</dimen>-->
+    <dimen name="gap_0dp">0dp</dimen>
     <dimen name="gap_16dp">16dp</dimen>
     <dimen name="gap_18dp">18dp</dimen>
     <!--<dimen name="gap_140dp">140dp</dimen>-->

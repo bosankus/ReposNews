@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/fragmentNews"
-        android:name="bose.ankush.reposnews.view.fragment.FragmentNews"
+        android:name="bose.ankush.reposnews.view.fragment.FragmentHome"
         android:label="FragmentNews"
-        tools:layout="@layout/fragment_news">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_fragmentNews_to_fragmentNewsDetails"
             app:destination="@id/fragmentNewsDetails" />
