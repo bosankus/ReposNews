@@ -26,6 +26,7 @@
             android:textColor="@color/white"
             app:fontFamily="@font/calibre"
             android:textSize="@dimen/text_20sp"
+            app:setTempInCelsius="@{viewmodel.weatherFlow}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,6 +38,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_14sp"
             app:fontFamily="@font/calibre"
+            app:setCurrentCity="@{viewmodel.weatherFlow}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_current_weather_temp" />

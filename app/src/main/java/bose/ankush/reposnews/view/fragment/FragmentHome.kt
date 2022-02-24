@@ -1,6 +1,5 @@
 package bose.ankush.reposnews.view.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import bose.ankush.reposnews.R
 import bose.ankush.reposnews.data.local.NewsEntity
@@ -19,13 +17,10 @@ import bose.ankush.reposnews.databinding.FragmentHomeBinding
 import bose.ankush.reposnews.util.ResultData
 import bose.ankush.reposnews.util.greetingMessage
 import bose.ankush.reposnews.util.shareNews
-import bose.ankush.reposnews.util.toCelsius
 import bose.ankush.reposnews.view.adapter.NewsAdapter
 import bose.ankush.reposnews.view.adapter.TopHeadlinesAdapter
 import bose.ankush.reposnews.viewmodel.HomeViewModel
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 /**Created by
 Author: Ankush Bose
@@ -60,32 +55,8 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
         binding?.fragmentNewsIncludedLayoutHeading?.layoutHeadingTvGreeting?.text =
             greetingMessage()
 
-        setWeatherDataOnUi()
         setDataOnTopHeadlineArticleRecyclerView()
         setDataOnNewsRecyclerView()
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    private fun setWeatherDataOnUi() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.weatherFlow.collectLatest { result ->
-                binding?.fragmentIncludedWeatherLayout?.apply {
-                    when (result) {
-                        is ResultData.Loading -> this.layoutCurrentWeatherCity.text =
-                            "Loading..."
-                        is ResultData.Success -> {
-
-                            this.layoutCurrentWeatherTemp.text =
-                                "${result.data?.main?.temp?.toCelsius()}°C"
-                            this.layoutCurrentWeatherCity.text = result.data?.name.toString()
-                        }
-                        is ResultData.Failed -> this.layoutCurrentWeatherCity.text = "Failed!"
-                        else -> {}
-                    }
-                }
-            }
-        }
     }
 
 
