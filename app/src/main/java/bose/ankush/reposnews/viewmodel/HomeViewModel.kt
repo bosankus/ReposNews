@@ -1,8 +1,6 @@
 package bose.ankush.reposnews.viewmodel
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bose.ankush.reposnews.data.local.NewsEntity
@@ -11,7 +9,6 @@ import bose.ankush.reposnews.data.local.model.Weather
 import bose.ankush.reposnews.data.news_repo.NewsRepository
 import bose.ankush.reposnews.data.weather_repo.WeatherRepository
 import bose.ankush.reposnews.util.ResultData
-import bose.ankush.reposnews.util.logMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,32 +32,29 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<ResultData<Weather>>(ResultData.DoNothing)
     val weatherFlow = _weatherFlow.asStateFlow()
 
-    private var _topHeadLines = MutableLiveData<ResultData<List<Article>>>(ResultData.DoNothing)
-    val topHeadlines: LiveData<ResultData<List<Article>>> = _topHeadLines
+    private var _topHeadLines = MutableStateFlow<ResultData<List<Article>>>(ResultData.DoNothing)
+    val topHeadlines = _topHeadLines.asStateFlow()
 
-    private var _newsData = MutableLiveData<ResultData<List<NewsEntity?>>>(ResultData.DoNothing)
-    val newsData: LiveData<ResultData<List<NewsEntity?>>> get() = _newsData
+    private var _newsData = MutableStateFlow<ResultData<List<NewsEntity?>>>(ResultData.DoNothing)
+    val newsData = _newsData.asStateFlow()
 
-    private var _newsUpdateStatus = MutableLiveData<Boolean>()
-    val newsUpdateStatus: LiveData<Boolean> get() = _newsUpdateStatus
-
-    private val newsExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _newsData.postValue(ResultData.Failed("${exception.message}"))
+    private val networkExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _newsData.value = ResultData.Failed("${exception.message}")
     }
 
     private var freshNews = listOf<NewsEntity?>()
 
     init {
+        updateFreshNewsFromRemote()
         getWeatherReport()
         getTopHeadlines()
         getNewsFromLocal()
-        updateFreshNewsFromRemote()
     }
 
     // fetch weather report and temperature
     private fun getWeatherReport() {
         _weatherFlow.value = ResultData.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(networkExceptionHandler) {
             try {
                 weatherSource.getWeatherReport().collect { weather ->
                     _weatherFlow.value = weather?.let { ResultData.Success(it) }
@@ -75,17 +69,17 @@ class HomeViewModel @Inject constructor(
 
     // fetch top headlines of India via flow
     private fun getTopHeadlines() {
-        _topHeadLines.postValue(ResultData.Loading)
-        viewModelScope.launch(newsExceptionHandler) {
+        _topHeadLines.value = ResultData.Loading
+        viewModelScope.launch(networkExceptionHandler) {
             try {
                 newsSource.getHeadlines()
                     .collect { headlines ->
                         if (headlines?.articles?.isNotEmpty() == true)
-                            _topHeadLines.postValue(ResultData.Success(headlines.articles))
-                        else _topHeadLines.postValue(ResultData.Failed("No headlines fetched"))
+                            _topHeadLines.value = ResultData.Success(headlines.articles)
+                        else _topHeadLines.value = ResultData.Failed("No headlines fetched")
                     }
             } catch (e: Exception) {
-                logMessage(e.message.toString())
+                _topHeadLines.value = ResultData.Failed(e.message)
             }
         }
     }
@@ -94,12 +88,12 @@ class HomeViewModel @Inject constructor(
     // fetch news from local via flow.
     // if news list is empty, calls [updateFreshNewsFromRemote()] method.
     private fun getNewsFromLocal() {
-        _newsData.postValue(ResultData.Loading)
-        viewModelScope.launch(newsExceptionHandler) {
+        _newsData.value = ResultData.Loading
+        viewModelScope.launch(networkExceptionHandler) {
             newsSource.getNewsFromLocal()?.collect { newsList ->
                 freshNews = newsList
                 if (newsList.isNotEmpty())
-                    _newsData.postValue(ResultData.Success(newsList))
+                    _newsData.value = ResultData.Success(newsList)
                 else updateFreshNewsFromRemote()
             }
         }
@@ -107,15 +101,13 @@ class HomeViewModel @Inject constructor(
 
 
     // update fresh news from remote and saves in room db
-    fun updateFreshNewsFromRemote() =
-        viewModelScope.launch(newsExceptionHandler) {
-            _newsUpdateStatus.postValue(newsSource.updateNews())
-        }
-
+    fun updateFreshNewsFromRemote() {
+        viewModelScope.launch(networkExceptionHandler) { newsSource.updateNews() }
+    }
 
     // book mark a news item
     fun bookmarkNewsItem(news: NewsEntity?) {
-        news?.let { viewModelScope.launch { newsSource.bookmarkNewsItem(it) } }
+        news?.let { viewModelScope.launch(networkExceptionHandler) { newsSource.bookmarkNewsItem(it) } }
     }
 
 

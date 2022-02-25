@@ -58,8 +58,8 @@ fun TextView.setNewsTimeText(txt: String?) {
 fun TextView.setTempInCelsius(value: ResultData<*>) {
     text =
         if (value is ResultData.Success<*> && value.data is Weather)
-            "${value.data.main?.tempMax?.toCelsius()}°C"
-        else "0°"
+            "${value.data.main?.temp?.toCelsius()}°C"
+        else "-°C"
 }
 
 @BindingAdapter("setCurrentCity")
@@ -91,18 +91,6 @@ fun ImageView.setIndicator(isBookmarked: Boolean) {
     else Glide.with(this.context)
         .load(R.drawable.ic_unselected_bookmark)
         .into(this)
-}
-
-@BindingAdapter("setWeatherIcon")
-fun ImageView.setIcon(result: ResultData<*>) {
-    if (result is ResultData.Success && result.data is Weather) {
-        result.data.weather?.get(0)?.icon?.let {
-            val iconUrl = "https://openweathermap.org/img/w/${it}.png"
-            Glide.with(this.context)
-                .load(iconUrl)
-                .into(this)
-        }
-    }
 }
 
 
@@ -138,11 +126,4 @@ fun View.layoutVisibleWhenNotLoading(dataState: ResultData<*>?) {
 @BindingAdapter("getNewsState")
 fun SwipeRefreshLayout.getNewsState(response: ResultData<*>) {
     this.isRefreshing = response is ResultData.Loading
-}
-
-@BindingAdapter("newsUpdateListener")
-fun SwipeRefreshLayout.newsUpdateListener(isFreshNewsAvailable: Boolean) {
-    if (!isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "News updated")
-    else if (isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "Already updated")
-    isRefreshing = false
 }
