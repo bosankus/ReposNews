@@ -127,10 +127,3 @@ fun View.layoutVisibleWhenNotLoading(dataState: ResultData<*>?) {
 fun SwipeRefreshLayout.getNewsState(response: ResultData<*>) {
     this.isRefreshing = response is ResultData.Loading
 }
-
-@BindingAdapter("newsUpdateListener")
-fun SwipeRefreshLayout.newsUpdateListener(isFreshNewsAvailable: Boolean) {
-    if (!isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "News updated")
-    else if (isFreshNewsAvailable && isRefreshing) showSnack(this.rootView, "Already updated")
-    isRefreshing = false
-}
