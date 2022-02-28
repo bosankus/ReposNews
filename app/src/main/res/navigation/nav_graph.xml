@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_fragmentNews_to_fragmentNewsDetails"
             app:destination="@id/fragmentNewsDetails" />
+        <action
+            android:id="@+id/action_fragmentNews_to_weatherFeatureGraph"
+            app:destination="@id/weatherFeatureGraph" />
     </fragment>
     <fragment
         android:id="@+id/fragmentNewsDetails"
@@ -23,4 +26,8 @@
             android:name="selectedNews"
             app:argType="bose.ankush.reposnews.data.local.NewsEntity" />
     </fragment>
+    <include-dynamic
+        android:id="@+id/weatherFeatureGraph"
+        app:graphResName="weather-nav-graph"
+        app:moduleName="weather-feature" />
 </navigation>

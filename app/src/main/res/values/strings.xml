@@ -5,4 +5,5 @@
     <string name="error_txt">Oops, that\'s very rare! something went wrong</string>
     <string name="empty_error_txt">Umm… you don\'t have any news</string>
     <string name="greeting_header">Hi,</string>
+    <string name="title_weather_feature">Module Title</string>
 </resources>

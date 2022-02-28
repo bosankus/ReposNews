@@ -6,6 +6,10 @@ Another screen for news details, which is shown on news list item click.
 
 The news search `SEARCH_KEYWORD` is hardcoded currently as *abuse*
 
+## Updates 25.02.2022:
+- Showing current temperature of 'Kolkata' and city name on main screen, UI updated. Used OpenWeather
+- ViewModel class name changed, also StateFlow migration is done. No more LiveData.
+
 ## Updates 21.02.2022:
 - UI updated for top headlines.
 - Top headlines now connected to UI from data source.

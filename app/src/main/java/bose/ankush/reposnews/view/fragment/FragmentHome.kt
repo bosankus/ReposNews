@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import bose.ankush.reposnews.R
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.local.model.Article
@@ -59,6 +60,15 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
 
         setDataOnTopHeadlineArticleRecyclerView()
         setDataOnNewsRecyclerView()
+        setClickListeners()
+    }
+
+
+    private fun setClickListeners() {
+        // navigation to dynamic feature module 'weather_feature'
+        binding?.fragmentIncludedWeatherLayout?.layoutCurrentWeatherContainer?.setOnClickListener {
+            findNavController().navigate(R.id.action_fragmentNews_to_weatherFeatureGraph)
+        }
     }
 
 
