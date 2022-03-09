@@ -1,7 +1,7 @@
 package bose.ankush.reposnews.data.news_repo
 
 import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.data.local.model.TopHeadlinesIndia
+import bose.ankush.reposnews.data.model.TopHeadlinesIndia
 import kotlinx.coroutines.flow.Flow
 
 /**Created by

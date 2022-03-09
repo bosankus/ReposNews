@@ -2,7 +2,7 @@ package com.bosankus.reposnews.weather_feature.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bose.ankush.reposnews.data.local.model.Weather
+import bose.ankush.reposnews.data.model.Weather
 import bose.ankush.reposnews.util.ResultData
 import com.bosankus.reposnews.weather_feature.data.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,7 +1,7 @@
 package bose.ankush.reposnews.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import bose.ankush.reposnews.data.local.model.Article
+import bose.ankush.reposnews.data.model.Article
 
 /**Created by
 Author: Ankush Bose

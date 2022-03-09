@@ -1,6 +1,6 @@
 package com.bosankus.reposnews.weather_feature.data.repository
 
-import bose.ankush.reposnews.data.local.model.Weather
+import bose.ankush.reposnews.data.model.Weather
 import bose.ankush.reposnews.data.network.WeatherApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

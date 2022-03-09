@@ -2,9 +2,10 @@ package bose.ankush.reposnews.data.news_repo
 
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.data.local.model.TopHeadlinesIndia
+import bose.ankush.reposnews.data.model.TopHeadlinesIndia
 import bose.ankush.reposnews.data.network.NewsApiService
 import bose.ankush.reposnews.data.network.toNewsEntityList
+import bose.ankush.reposnews.util.SEARCH_KEYWORD
 import bose.ankush.reposnews.util.bothListsMatch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -66,9 +67,4 @@ class NewsRepositoryImpl @Inject constructor(
 
     /** For getting all the bookmarked news items */
     override fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>? = dao.getAllBookmarkedNews()
-
-
-    companion object {
-        const val SEARCH_KEYWORD = "abuse"
-    }
 }

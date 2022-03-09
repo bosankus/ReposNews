@@ -9,13 +9,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "bose.ankush.reposnews"
         minSdkVersion 16
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -46,7 +46,7 @@ android {
 dependencies {
 
     // core library module
-    implementation project(":core")
+    /*implementation project(":core")*/
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -65,8 +65,8 @@ dependencies {
     // Room
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     // will be updated later. occurring build error
-    implementation 'androidx.room:room-ktx:2.4.1'
-    kapt "androidx.room:room-compiler:2.4.1"
+    implementation 'androidx.room:room-ktx:2.4.2'
+    kapt 'androidx.room:room-compiler:2.4.2'
 
     // Lifecycle
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
