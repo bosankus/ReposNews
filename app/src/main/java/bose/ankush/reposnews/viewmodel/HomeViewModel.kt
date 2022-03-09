@@ -4,8 +4,8 @@ package bose.ankush.reposnews.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bose.ankush.reposnews.data.local.NewsEntity
-import bose.ankush.reposnews.data.local.model.Article
-import bose.ankush.reposnews.data.local.model.Weather
+import bose.ankush.reposnews.data.model.Article
+import bose.ankush.reposnews.data.model.Weather
 import bose.ankush.reposnews.data.news_repo.NewsRepository
 import bose.ankush.reposnews.data.weather_repo.WeatherRepository
 import bose.ankush.reposnews.util.ResultData
@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

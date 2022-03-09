@@ -1,7 +1,7 @@
 package bose.ankush.reposnews.view.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import bose.ankush.reposnews.data.local.model.Article
+import bose.ankush.reposnews.data.model.Article
 import bose.ankush.reposnews.databinding.LayoutTopHeadlinesItemBinding
 
 class TopHeadlinesViewHolder(

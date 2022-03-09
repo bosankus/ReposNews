@@ -1,7 +1,7 @@
 package bose.ankush.reposnews.data.network
 
 import bose.ankush.reposnews.BuildConfig
-import bose.ankush.reposnews.data.local.model.TopHeadlinesIndia
+import bose.ankush.reposnews.data.model.TopHeadlinesIndia
 import bose.ankush.reposnews.util.COUNTRY_NAME
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.data.local.model
+package bose.ankush.reposnews.data.model
 
 data class TopHeadlinesIndia(
     val articles: List<Article>,

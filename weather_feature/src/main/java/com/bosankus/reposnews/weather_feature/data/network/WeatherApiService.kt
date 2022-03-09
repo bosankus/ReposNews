@@ -1,7 +1,7 @@
 package com.bosankus.reposnews.weather_feature.data.network
 
 import bose.ankush.reposnews.BuildConfig
-import bose.ankush.reposnews.data.local.model.Weather
+import bose.ankush.reposnews.data.model.Weather
 import retrofit2.http.GET
 import retrofit2.http.Query
 

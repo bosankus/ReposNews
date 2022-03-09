@@ -9,7 +9,7 @@ import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import bose.ankush.reposnews.R
-import bose.ankush.reposnews.data.local.model.Weather
+import bose.ankush.reposnews.data.model.Weather
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners

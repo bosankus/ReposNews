@@ -1,4 +1,3 @@
 rootProject.name = "ReposNews"
 include ':app'
 include ':weather_feature'
-include ':core'
