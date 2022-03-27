@@ -19,16 +19,16 @@ fun getCurrentTimestamp(): String = Calendar.getInstance().timeInMillis.toString
 
 fun logMessage(message: String) = Timber.d(message)
 
-fun showSnack(view: View, message: String) {
+/*fun showSnack(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
-}
+}*/
 
-inline fun <reified T> bothListsMatch(first: List<T?>, second: List<T?>): Boolean {
+/*inline fun <reified T> bothListsMatch(first: List<T?>, second: List<T?>): Boolean {
     if (first.size != second.size) {
         return false
     }
     return first.zip(second).all { (x, y) -> x == y }
-}
+}*/
 
 @SuppressLint("SimpleDateFormat")
 fun String.showDayDateAndMonth(): String {

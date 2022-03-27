@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import bose.ankush.reposnews.databinding.ActivityMainBinding
 import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,14 +23,5 @@ class MainActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
 
-        /*initDynamicModules()*/
-    }
-
-    private fun initDynamicModules() {
-        splitInstallManager = SplitInstallManagerFactory.create(this)
-        request = SplitInstallRequest
-            .newBuilder()
-            .addModule(DYNAMIC_FEATURE)
-            .build();
     }
 }

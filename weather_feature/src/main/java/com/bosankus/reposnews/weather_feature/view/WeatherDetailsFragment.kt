@@ -30,13 +30,6 @@ class WeatherDetailsFragment : Fragment() {
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
-
-
     override fun onDestroyView() {
         binding = null
         super.onDestroyView()

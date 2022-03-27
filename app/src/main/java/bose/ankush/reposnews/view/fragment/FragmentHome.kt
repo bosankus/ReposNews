@@ -6,24 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
-import androidx.paging.map
 import bose.ankush.reposnews.R
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.model.Article
 import bose.ankush.reposnews.databinding.FragmentHomeBinding
-import bose.ankush.reposnews.util.ResultData
-import bose.ankush.reposnews.util.greetingMessage
-import bose.ankush.reposnews.util.logMessage
-import bose.ankush.reposnews.util.shareNews
+import bose.ankush.reposnews.util.*
 import bose.ankush.reposnews.view.adapter.NewsAdapter
+import bose.ankush.reposnews.view.adapter.NewsLoadStateAdapter
 import bose.ankush.reposnews.view.adapter.TopHeadlinesAdapter
 import bose.ankush.reposnews.viewmodel.HomeViewModel
 import com.google.android.play.core.splitinstall.SplitInstallManager
@@ -68,9 +63,6 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*binding?.fragmentIncludedNewsLayout?.fragmentNewsSwipeRefreshContainer
-            ?.setOnRefreshListener { viewModel.updateFreshNewsFromRemote() }*/
-
         binding?.fragmentNewsIncludedLayoutHeading?.layoutHeadingTvGreeting?.text =
             greetingMessage()
 
@@ -107,7 +99,11 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
 
 
     private fun setPagingNewsItemsOnRecyclerView() {
-        binding?.fragmentIncludedNewsLayout?.fragmentNewsRvNews?.adapter = newsAdapter
+        binding?.fragmentIncludedNewsLayout?.fragmentNewsRvNews?.apply {
+            addItemDecoration(RecyclerViewItemDecoration())
+            adapter =
+                newsAdapter.withLoadStateFooter(footer = NewsLoadStateAdapter { newsAdapter.retry() })
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getNews().collectLatest { response ->

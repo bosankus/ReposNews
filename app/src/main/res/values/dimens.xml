@@ -20,4 +20,6 @@
     <dimen name="gap_10dp">10dp</dimen>
     <dimen name="gap_8dp">8dp</dimen>
     <dimen name="gap_5dp">5dp</dimen>
+    <dimen name="gap_24">24dp</dimen>
+
 </resources>

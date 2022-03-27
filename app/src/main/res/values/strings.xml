@@ -6,4 +6,5 @@
     <string name="empty_error_txt">Umm… you don\'t have any news</string>
     <string name="greeting_header">Hi,</string>
     <string name="title_weather_feature">Module Title</string>
+    <string name="_retry">Retry</string>
 </resources>
