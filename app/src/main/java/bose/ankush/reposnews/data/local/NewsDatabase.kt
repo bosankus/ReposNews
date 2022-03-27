@@ -9,12 +9,14 @@ Date: 20,May,2021
  **/
 
 @Database(
-    entities = [NewsEntity::class],
-    version = 2,
+    entities = [NewsEntity::class, NewsRemoteKeysEntity::class],
+    version = 3,
     exportSchema = false
 )
 
 abstract class NewsDatabase : RoomDatabase() {
 
     abstract fun newsDao(): NewsDao
+
+    abstract fun newsRemoteKeysDao(): NewsRemoteKeysDao
 }

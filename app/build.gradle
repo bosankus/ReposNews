@@ -68,6 +68,12 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.2'
     kapt 'androidx.room:room-compiler:2.4.2'
 
+    // Room-Paging 3
+    implementation "androidx.room:room-paging:2.4.2"
+
+    // Paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+
     // Lifecycle
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"

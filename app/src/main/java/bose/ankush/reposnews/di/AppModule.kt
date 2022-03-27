@@ -1,6 +1,7 @@
 package bose.ankush.reposnews.di
 
 import android.content.Context
+import androidx.paging.ExperimentalPagingApi
 import androidx.room.Room
 import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsDatabase
@@ -123,10 +124,12 @@ object AppModule {
     fun providesNewsDao(db: NewsDatabase) = db.newsDao()
 
 
+
+    @ExperimentalPagingApi
     @Singleton
     @Provides
-    fun provideNewsRepository(newsApiService: NewsApiService, dao: NewsDao): NewsRepository =
-        NewsRepositoryImpl(newsApiService, dao)
+    fun provideNewsRepository(newsApiService: NewsApiService, dao: NewsDao, newsDatabase: NewsDatabase): NewsRepository =
+        NewsRepositoryImpl(newsApiService, dao, newsDatabase)
 
 
     @Singleton

@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.paging.map
 import bose.ankush.reposnews.R
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.model.Article
@@ -30,6 +33,7 @@ import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListene
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**Created by
 Author: Ankush Bose
@@ -42,6 +46,8 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
     private var binding: FragmentHomeBinding? = null
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var splitInstaller: SplitInstallManager
+    private lateinit var newsAdapter: NewsAdapter
+    private lateinit var topHeadlinesAdapter: TopHeadlinesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,14 +68,17 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.fragmentIncludedNewsLayout?.fragmentNewsSwipeRefreshContainer
-            ?.setOnRefreshListener { viewModel.updateFreshNewsFromRemote() }
+        /*binding?.fragmentIncludedNewsLayout?.fragmentNewsSwipeRefreshContainer
+            ?.setOnRefreshListener { viewModel.updateFreshNewsFromRemote() }*/
 
         binding?.fragmentNewsIncludedLayoutHeading?.layoutHeadingTvGreeting?.text =
             greetingMessage()
 
+        topHeadlinesAdapter = TopHeadlinesAdapter(::openTopHeadlineItemDetailsInBrowser)
+        newsAdapter = NewsAdapter(::goToNewsDetailsScreen, ::bookmarkNewsItem, ::shareNewsItem)
+
         setDataOnTopHeadlineArticleRecyclerView()
-        setDataOnNewsRecyclerView()
+        setPagingNewsItemsOnRecyclerView()
         setClickListeners()
     }
 
@@ -84,11 +93,10 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
 
 
     private fun setDataOnTopHeadlineArticleRecyclerView() {
-        val topHeadlinesAdapter = TopHeadlinesAdapter(::openTopHeadlineItemDetailsInBrowser)
         binding?.fragmentIncludedNewsLayoutTopHeadlines?.layoutTopHeadlinesRv?.adapter =
             topHeadlinesAdapter
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated {
             viewModel.topHeadlines.collectLatest { response ->
                 if (response is ResultData.Success && response.data != null)
                     topHeadlinesAdapter.submitList(response.data)
@@ -98,34 +106,33 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
     }
 
 
-    private fun setDataOnNewsRecyclerView() {
-        val newsAdapter = NewsAdapter(::goToNewsDetailsScreen, ::bookmarkNewsItem, ::shareNewsItem)
+    private fun setPagingNewsItemsOnRecyclerView() {
         binding?.fragmentIncludedNewsLayout?.fragmentNewsRvNews?.adapter = newsAdapter
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.newsData.collectLatest { response ->
-                if (response is ResultData.Success && response.data != null)
-                    newsAdapter.submitList(response.data)
-                else newsAdapter.submitList(emptyList())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getNews().collectLatest { response ->
+                newsAdapter.submitData(response)
             }
         }
     }
 
 
-    private fun goToNewsDetailsScreen(news: NewsEntity) {
-        val action =
-            FragmentHomeDirections.actionFragmentNewsToFragmentNewsDetails(news)
-        requireView().findNavController().navigate(action)
+    private fun goToNewsDetailsScreen(news: NewsEntity?) {
+        news?.let {
+            val action =
+                FragmentHomeDirections.actionFragmentNewsToFragmentNewsDetails(it)
+            requireView().findNavController().navigate(action)
+        }
     }
 
 
-    private fun bookmarkNewsItem(news: NewsEntity) {
+    private fun bookmarkNewsItem(news: NewsEntity?) {
         viewModel.bookmarkNewsItem(news)
     }
 
 
-    private fun shareNewsItem(news: NewsEntity) {
-        this.shareNews(news)
+    private fun shareNewsItem(news: NewsEntity?) {
+        news?.let { this.shareNews(it) }
     }
 
 
@@ -163,8 +170,8 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
 
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding = null
+        super.onDestroyView()
     }
 
 
@@ -174,6 +181,6 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
             .build()
 
         splitInstaller.startInstall(splitInstallRequest)
-            .addOnFailureListener { logMessage(it.localizedMessage) }
+            .addOnFailureListener { logMessage(it.message.toString()) }
     }
 }

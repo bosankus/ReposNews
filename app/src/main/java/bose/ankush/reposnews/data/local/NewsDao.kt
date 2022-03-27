@@ -1,5 +1,6 @@
 package bose.ankush.reposnews.data.local
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -12,27 +13,30 @@ Date: 20,May,2021
 interface NewsDao {
 
     @Transaction
-    suspend fun updateNews(newsList: List<NewsEntity?>?) {
+    suspend fun updateNews(newsList: List<NewsEntity>) {
         deleteUnBookmarkedNews()
-        newsList?.let { list -> list.forEach { item -> item?.let { insertNews(it) } } }
+        insertNews(newsList)
     }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertNews(news: NewsEntity)
-
-    @Query("DELETE FROM news_table WHERE isBookmarked = 0")
-    suspend fun deleteUnBookmarkedNews()
+    suspend fun insertNews(news: List<NewsEntity?>)
 
     @Query("SELECT * FROM news_table")
-    fun getNewsViaFlow(): Flow<List<NewsEntity?>>?
+    fun getPagingNews(): PagingSource<Int, NewsEntity>
 
-    @Query("SELECT * FROM news_table")
-    fun getNewsViaLiveData(): List<NewsEntity?>?
+    @Query("SELECT * FROM news_table WHERE isBookmarked = 1 ORDER BY publishedAt DESC")
+    fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>?
+
+    @Query("SELECT * FROM news_table WHERE title LIKE '%' || :keyword || '%'")
+    fun getNewsFromSearchKeyword(keyword: String): PagingSource<Int, NewsEntity>
 
     @Query("UPDATE news_table SET isBookmarked = :isBookmarked WHERE id= :newsId")
     fun bookmarkNewsItem(newsId: Int, isBookmarked: Boolean)
 
-    @Query("SELECT * FROM news_table WHERE isBookmarked = 1 ORDER BY publishedAt DESC")
-    fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>?
+    @Query("DELETE FROM news_table WHERE isBookmarked = 0")
+    suspend fun deleteUnBookmarkedNews()
+
+    @Query("DELETE from news_table")
+    suspend fun deleteAllNews()
 
 }

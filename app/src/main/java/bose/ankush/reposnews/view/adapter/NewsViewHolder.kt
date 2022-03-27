@@ -13,22 +13,18 @@ class NewsViewHolder(private var binding: LayoutNewsListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
-        newsEntityItem: NewsEntity,
-        itemContainerClickListener: (news: NewsEntity) -> Unit,
-        itemBookmarkClickListener: (news: NewsEntity) -> Unit,
-        itemShareClickListener: (newsId: NewsEntity) -> Unit,
+        newsEntityItem: NewsEntity?,
+        itemContainerClickListener: (news: NewsEntity?) -> Unit,
+        itemBookmarkClickListener: (news: NewsEntity?) -> Unit,
+        itemShareClickListener: (newsId: NewsEntity?) -> Unit,
     ) {
         binding.apply {
             news = newsEntityItem
             layoutNewsListItemContainer.setOnClickListener {
-                itemContainerClickListener(
-                    newsEntityItem
-                )
+                itemContainerClickListener(newsEntityItem)
             }
             layoutNewsListItemImgBookmark.setOnClickListener {
-                itemBookmarkClickListener(
-                    newsEntityItem
-                )
+                itemBookmarkClickListener(newsEntityItem)
             }
             layoutNewsListItemImgShare.setOnClickListener { itemShareClickListener(newsEntityItem) }
             executePendingBindings()

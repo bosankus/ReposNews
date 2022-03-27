@@ -1,14 +1,17 @@
 package bose.ankush.reposnews.data.news_repo
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import bose.ankush.reposnews.data.local.NewsDao
+import bose.ankush.reposnews.data.local.NewsDatabase
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.model.TopHeadlinesIndia
 import bose.ankush.reposnews.data.network.NewsApiService
-import bose.ankush.reposnews.data.network.toNewsEntityList
-import bose.ankush.reposnews.util.SEARCH_KEYWORD
-import bose.ankush.reposnews.util.bothListsMatch
+import bose.ankush.reposnews.data.network.NewsMediator
+import bose.ankush.reposnews.util.ITEMS_PER_PAGE
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -20,9 +23,11 @@ Author: Ankush Bose
 Date: 19,May,2021
  **/
 
+@ExperimentalPagingApi
 class NewsRepositoryImpl @Inject constructor(
     private val newsApiService: NewsApiService,
-    private val dao: NewsDao
+    private val dao: NewsDao,
+    private val newsDatabase: NewsDatabase
 ) : NewsRepository {
 
     /** Getting the headlines from network via flow */
@@ -33,27 +38,17 @@ class NewsRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    /** Getting the news from local room db via flow */
-    override fun getNewsFromLocal(): Flow<List<NewsEntity?>>? = dao.getNewsViaFlow()
-
-
-    /** Updating room db with fresh news from network */
-    override suspend fun updateNews(): Boolean = withContext(Dispatchers.IO) {
-        val isDataMatching: Boolean
-
-        val localData = async { dao.getNewsViaLiveData() }
-        val remoteNews = async { newsApiService.getNews(SEARCH_KEYWORD) }
-
-        val old: List<NewsEntity?>? = localData.await()
-        val new: List<NewsEntity?>? =
-            remoteNews.await()?.articles?.map { article -> article?.toNewsEntityList() }
-
-        isDataMatching =
-            ((old?.isNotEmpty() == true && new?.isNotEmpty() == true) && bothListsMatch(old, new))
-
-        if (!isDataMatching) new?.let { dao.updateNews(it) }
-
-        isDataMatching
+    /** Getting the paginated news data from local room db via flow */
+    override fun getNewsFromLocal(): Flow<PagingData<NewsEntity>> {
+        val pagingSourceFactory = { dao.getPagingNews() }
+        return Pager(
+            config = PagingConfig(
+                pageSize = ITEMS_PER_PAGE,
+                enablePlaceholders = false
+            ),
+            remoteMediator = NewsMediator(newsApiService, newsDatabase),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
     }
 
 

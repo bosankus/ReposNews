@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.data.network
+package bose.ankush.reposnews.data.model
 
 
 import bose.ankush.reposnews.data.local.NewsEntity
@@ -49,6 +49,7 @@ fun News.Article.toNewsEntityList(): NewsEntity {
     return NewsEntity(
         content = this.content,
         description = this.description,
+        author = this.author,
         publishedAt = this.publishedAt,
         sourceName = this.source?.name,
         title = this.title,

@@ -19,6 +19,8 @@ data class NewsEntity(
     val content: String? = "",
     @ColumnInfo(name = "description")
     val description: String? = "",
+    @ColumnInfo(name = "author")
+    val author: String? = "",
     @ColumnInfo(name = "publishedAt")
     val publishedAt: String? = "",
     @ColumnInfo(name = "sourceName")

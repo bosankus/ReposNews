@@ -1,5 +1,6 @@
 package bose.ankush.reposnews.data.news_repo
 
+import androidx.paging.PagingData
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.model.TopHeadlinesIndia
 import kotlinx.coroutines.flow.Flow
@@ -13,9 +14,9 @@ interface NewsRepository {
 
     fun getHeadlines(): Flow<TopHeadlinesIndia?>
 
-    fun getNewsFromLocal(): Flow<List<NewsEntity?>>?
+    fun getNewsFromLocal(): Flow<PagingData<NewsEntity>>
 
-    suspend fun updateNews(): Boolean
+    /*suspend fun updateNews(): Boolean*/
 
     suspend fun bookmarkNewsItem(newsEntity: NewsEntity)
 

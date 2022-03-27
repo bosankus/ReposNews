@@ -3,6 +3,8 @@ package bose.ankush.reposnews.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.model.Article
 import bose.ankush.reposnews.data.model.Weather
@@ -11,6 +13,7 @@ import bose.ankush.reposnews.data.weather_repo.WeatherRepository
 import bose.ankush.reposnews.util.ResultData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -41,13 +44,12 @@ class HomeViewModel @Inject constructor(
         _newsData.value = ResultData.Failed("${exception.message}")
     }
 
-    private var freshNews = listOf<NewsEntity?>()
+    /*private val paginatedNewsData = newsSource.getNewsFromLocal()
+        .collect()*/
 
     init {
-        updateFreshNewsFromRemote()
         getWeatherReport()
         getTopHeadlines()
-        getNewsFromLocal()
     }
 
     // fetch weather report and temperature
@@ -84,25 +86,16 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    // fetch news from local via flow.
-    // if news list is empty, calls [updateFreshNewsFromRemote()] method.
-    private fun getNewsFromLocal() {
-        _newsData.value = ResultData.Loading
-        viewModelScope.launch(networkExceptionHandler) {
-            newsSource.getNewsFromLocal()?.collect { newsList ->
-                freshNews = newsList
-                if (newsList.isNotEmpty())
-                    _newsData.value = ResultData.Success(newsList)
-                else updateFreshNewsFromRemote()
-            }
-        }
+    // fetch paginated news from local via flow.
+    fun getNews(): Flow<PagingData<NewsEntity>> {
+        return newsSource.getNewsFromLocal().cachedIn(viewModelScope)
     }
 
 
     // update fresh news from remote and saves in room db
-    fun updateFreshNewsFromRemote() {
+    /*fun updateFreshNewsFromRemote() {
         viewModelScope.launch(networkExceptionHandler) { newsSource.updateNews() }
-    }
+    }*/
 
     // book mark a news item
     fun bookmarkNewsItem(news: NewsEntity?) {
