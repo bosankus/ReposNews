@@ -4,13 +4,16 @@ ResposNews was intially a project during one of my interview. Later became one o
 One containing all the news fetched from RoomDB.
 Another screen for news details, which is shown on news list item click.
 
-The news search `SEARCH_KEYWORD` is hardcoded currently as *Ukrain*
+The news search `SEARCH_KEYWORD` is hardcoded currently as *India*
+
+## Updates 28.03.2022
+- Swipe refresh layout removed for news list
+- News list is showing via Paging 3 component now
 
 ## Updates 28.02.2022
 - Two new modules added: core & weather_feature
 - core: holds room, api
 - weather_feature: holds the dynamic feature module for weather details screen.
-
 
 ## Updates 25.02.2022:
 - Showing current temperature of 'Kolkata' and city name on main screen, UI updated. Used OpenWeather
