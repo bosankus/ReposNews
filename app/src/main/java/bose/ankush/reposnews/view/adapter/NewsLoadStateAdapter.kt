@@ -28,7 +28,7 @@ class NewsLoadStateAdapter(private val retry: () -> Unit) :
                     tvRetry.isVisible = true
                     tvErrorMsg.apply {
                         isVisible = true
-                        text = loadState.error.message
+                        text = loadState.error.localizedMessage
                     }
                 }
                 else -> pbMembersListState.isVisible = true

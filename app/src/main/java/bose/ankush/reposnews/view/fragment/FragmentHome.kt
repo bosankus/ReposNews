@@ -52,7 +52,8 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
 
         splitInstaller = SplitInstallManagerFactory.create(requireContext())
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        if (binding == null)
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         return binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewmodel = viewModel
@@ -88,7 +89,7 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
         binding?.fragmentIncludedNewsLayoutTopHeadlines?.layoutTopHeadlinesRv?.adapter =
             topHeadlinesAdapter
 
-        lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.topHeadlines.collectLatest { response ->
                 if (response is ResultData.Success && response.data != null)
                     topHeadlinesAdapter.submitList(response.data)
@@ -105,9 +106,9 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
                 newsAdapter.withLoadStateFooter(footer = NewsLoadStateAdapter { newsAdapter.retry() })
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getNews().collectLatest { response ->
-                newsAdapter.submitData(response)
+                newsAdapter.submitData(viewLifecycleOwner.lifecycle, response)
             }
         }
     }
