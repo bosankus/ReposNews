@@ -55,8 +55,6 @@
             tools:itemCount="5"
             tools:listitem="@layout/layout_news_list_item" />
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/fragment_news_tv_paging_error"
             android:layout_width="250dp"
