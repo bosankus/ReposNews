@@ -4,7 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import bose.ankush.reposnews.data.local.NewsDao
 import bose.ankush.reposnews.data.local.NewsDatabase
 import bose.ankush.reposnews.data.local.NewsEntity
 import bose.ankush.reposnews.data.model.TopHeadlinesIndia
@@ -26,8 +25,7 @@ Date: 19,May,2021
 @ExperimentalPagingApi
 class NewsRepositoryImpl @Inject constructor(
     private val newsApiService: NewsApiService,
-    private val dao: NewsDao,
-    private val newsDatabase: NewsDatabase
+    private val db: NewsDatabase
 ) : NewsRepository {
 
     /** Getting the headlines from network via flow */
@@ -40,26 +38,31 @@ class NewsRepositoryImpl @Inject constructor(
 
     /** Getting the paginated news data from local room db via flow */
     override fun getNewsFromLocal(): Flow<PagingData<NewsEntity>> {
-        val pagingSourceFactory = { dao.getPagingNews() }
+        val pagingSourceFactory = { db.newsDao().getPagingNews() }
         return Pager(
             config = PagingConfig(
                 pageSize = ITEMS_PER_PAGE,
                 enablePlaceholders = false
             ),
-            remoteMediator = NewsMediator(newsApiService, newsDatabase),
+            remoteMediator = NewsMediator(newsApiService, db),
             pagingSourceFactory = pagingSourceFactory
         ).flow
+    }
+
+    override fun getNewsFromSearchKeyword(query: String): Flow<PagingData<NewsEntity>> {
+        TODO("Not yet implemented")
     }
 
 
     /** Bookmarking news item and storing in room db */
     override suspend fun bookmarkNewsItem(newsEntity: NewsEntity) {
         withContext(Dispatchers.IO) {
-            if (newsEntity.isBookmarked) dao.bookmarkNewsItem(newsEntity.id, false)
-            else dao.bookmarkNewsItem(newsEntity.id, true)
+            if (newsEntity.isBookmarked) db.newsDao().bookmarkNewsItem(newsEntity.id, false)
+            else db.newsDao().bookmarkNewsItem(newsEntity.id, true)
         }
     }
 
     /** For getting all the bookmarked news items */
-    override fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>? = dao.getAllBookmarkedNews()
+    override fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>? =
+        db.newsDao().getAllBookmarkedNews()
 }

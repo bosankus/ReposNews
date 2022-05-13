@@ -119,17 +119,11 @@ object AppModule {
             .build()
 
 
-    @Singleton
-    @Provides
-    fun providesNewsDao(db: NewsDatabase) = db.newsDao()
-
-
-
     @ExperimentalPagingApi
     @Singleton
     @Provides
-    fun provideNewsRepository(newsApiService: NewsApiService, dao: NewsDao, newsDatabase: NewsDatabase): NewsRepository =
-        NewsRepositoryImpl(newsApiService, dao, newsDatabase)
+    fun provideNewsRepository(newsApiService: NewsApiService, newsDatabase: NewsDatabase): NewsRepository =
+        NewsRepositoryImpl(newsApiService, newsDatabase)
 
 
     @Singleton
