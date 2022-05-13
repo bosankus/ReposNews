@@ -20,7 +20,6 @@ import bose.ankush.reposnews.util.*
 import bose.ankush.reposnews.view.adapter.NewsAdapter
 import bose.ankush.reposnews.view.adapter.NewsLoadStateAdapter
 import bose.ankush.reposnews.view.adapter.TopHeadlinesAdapter
-import bose.ankush.reposnews.viewmodel.HomeViewModel
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
@@ -28,7 +27,6 @@ import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListene
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**Created by
 Author: Ankush Bose
@@ -80,7 +78,6 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
         // navigation to dynamic feature module 'weather_feature'
         binding?.fragmentIncludedWeatherLayout?.layoutCurrentWeatherContainer?.setOnClickListener {
             requestDFMInstall()
-            /*findNavController().navigate(R.id.action_fragmentNews_to_weatherFeatureGraph)*/
         }
     }
 

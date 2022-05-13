@@ -1,4 +1,4 @@
-package bose.ankush.reposnews.viewmodel
+package bose.ankush.reposnews.view.fragment
 
 
 import androidx.lifecycle.ViewModel

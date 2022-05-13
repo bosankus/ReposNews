@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="bose.ankush.reposnews.viewmodel.HomeViewModel" />
+            type="bose.ankush.reposnews.view.fragment.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="bose.ankush.reposnews.viewmodel.HomeViewModel" />
+            type="bose.ankush.reposnews.view.fragment.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +35,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/fragment_news_sv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:queryHint="Search news"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_news_tv_header"
+            android:layout_margin="@dimen/gap_16dp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_news_rv_news"
             android:layout_width="match_parent"
@@ -51,7 +61,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_news_tv_header"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_news_sv"
             tools:itemCount="5"
             tools:listitem="@layout/layout_news_list_item" />
 
