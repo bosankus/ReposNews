@@ -49,10 +49,6 @@ class NewsRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getNewsFromSearchKeyword(query: String): Flow<PagingData<NewsEntity>> {
-        TODO("Not yet implemented")
-    }
-
 
     /** Bookmarking news item and storing in room db */
     override suspend fun bookmarkNewsItem(newsEntity: NewsEntity) {
@@ -61,8 +57,4 @@ class NewsRepositoryImpl @Inject constructor(
             else db.newsDao().bookmarkNewsItem(newsEntity.id, true)
         }
     }
-
-    /** For getting all the bookmarked news items */
-    override fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>? =
-        db.newsDao().getAllBookmarkedNews()
 }

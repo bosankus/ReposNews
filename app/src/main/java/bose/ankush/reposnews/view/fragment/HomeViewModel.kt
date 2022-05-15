@@ -44,9 +44,6 @@ class HomeViewModel @Inject constructor(
         _newsData.value = ResultData.Failed("${exception.message}")
     }
 
-    /*private val paginatedNewsData = newsSource.getNewsFromLocal()
-        .collect()*/
-
     init {
         getWeatherReport()
         getTopHeadlines()
@@ -92,26 +89,8 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    // update fresh news from remote and saves in room db
-    /*fun updateFreshNewsFromRemote() {
-        viewModelScope.launch(networkExceptionHandler) { newsSource.updateNews() }
-    }*/
-
     // book mark a news item
     fun bookmarkNewsItem(news: NewsEntity?) {
         news?.let { viewModelScope.launch(networkExceptionHandler) { newsSource.bookmarkNewsItem(it) } }
     }
-
-
-    // get all bookmarked news item
-    /*fun getAllBookmarkedNews() {
-        _newsData.postValue(ResultData.Loading)
-        viewModelScope.launch {
-            newsSource.getAllBookmarkedNews()?.collect { newsList ->
-                if (newsList.isNotEmpty()) _newsData.postValue(ResultData.Success(newsList))
-                else _newsData.postValue(ResultData.Failed("No news found"))
-            }
-        }
-    }*/
-
 }

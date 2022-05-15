@@ -24,12 +24,6 @@ interface NewsDao {
     @Query("SELECT * FROM news_table")
     fun getPagingNews(): PagingSource<Int, NewsEntity>
 
-    @Query("SELECT * FROM news_table WHERE isBookmarked = 1 ORDER BY publishedAt DESC")
-    fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>?
-
-    @Query("SELECT * FROM news_table WHERE title LIKE '%' || :keyword || '%'")
-    fun getNewsFromSearchKeyword(keyword: String): PagingSource<Int, NewsEntity>
-
     @Query("UPDATE news_table SET isBookmarked = :isBookmarked WHERE id= :newsId")
     fun bookmarkNewsItem(newsId: Int, isBookmarked: Boolean)
 

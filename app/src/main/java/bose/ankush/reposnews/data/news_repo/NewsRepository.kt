@@ -16,11 +16,5 @@ interface NewsRepository {
 
     fun getNewsFromLocal(): Flow<PagingData<NewsEntity>>
 
-    /*suspend fun updateNews(): Boolean*/
-
-    fun getNewsFromSearchKeyword(query: String): Flow<PagingData<NewsEntity>>
-
     suspend fun bookmarkNewsItem(newsEntity: NewsEntity)
-
-    fun getAllBookmarkedNews(): Flow<List<NewsEntity?>>?
 }
