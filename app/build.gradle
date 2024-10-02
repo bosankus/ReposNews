@@ -75,7 +75,7 @@ dependencies {
     // Lifecycle
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
-    api 'androidx.fragment:fragment-ktx:1.4.1'
+    api 'androidx.fragment:fragment-ktx:1.8.4'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
